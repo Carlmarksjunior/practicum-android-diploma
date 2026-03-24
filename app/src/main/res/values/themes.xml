@@ -10,6 +10,8 @@
         <item name="colorOnBackgroundPrimary">@color/black</item>
         <item name="colorTextField">@color/light_gray</item>
         <item name="colorHintTextField">@color/gray</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.PracticumAndroidDiploma" parent="Base.Theme.PracticumAndroidDiploma" />
