@@ -12,13 +12,13 @@
         android:text="@string/bottom_nav_home" />
 
     <Button
-        android:id="@+id/testNavigationButton1"
+        android:id="@+id/navigateToFilterSettingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/filter_settings"/>
     <Button
-        android:id="@+id/testNavigationButton2"
+        android:id="@+id/navigateToVacancyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"

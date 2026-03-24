@@ -25,7 +25,7 @@
         android:id="@+id/viewSeparator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?attr/colorHintTextField"
+        android:background="@color/light_gray"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -25,10 +25,10 @@ class FilterLocationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.testNavigationButton1.setOnClickListener {
+        binding.navigateToCountryButton.setOnClickListener {
             findNavController().navigate(R.id.action_filterLocationFragment_to_filterCountryFragment)
         }
-        binding.testNavigationButton2.setOnClickListener {
+        binding.navigateToRegionButton.setOnClickListener {
             findNavController().navigate(R.id.action_filterLocationFragment_to_filterRegionFragment)
         }
     }

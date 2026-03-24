@@ -12,7 +12,7 @@
         android:text="@string/favorites" />
 
     <Button
-        android:id="@+id/testNavigationButton1"
+        android:id="@+id/navigateToVacancyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

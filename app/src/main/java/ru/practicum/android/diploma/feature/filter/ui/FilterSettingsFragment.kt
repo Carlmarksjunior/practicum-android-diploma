@@ -25,10 +25,10 @@ class FilterSettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.testNavigationButton1.setOnClickListener {
+        binding.navigateToLocationButton.setOnClickListener {
             findNavController().navigate(R.id.action_filterSettingsFragment_to_filterLocationFragment)
         }
-        binding.testNavigationButton2.setOnClickListener {
+        binding.navigateToIndustryButton.setOnClickListener {
             findNavController().navigate(R.id.action_filterSettingsFragment_to_filterIndustryFragment)
         }
     }

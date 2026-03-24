@@ -11,13 +11,13 @@
         android:text="@string/work_place" />
 
     <Button
-        android:id="@+id/testNavigationButton1"
+        android:id="@+id/navigateToCountryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/country"/>
     <Button
-        android:id="@+id/testNavigationButton2"
+        android:id="@+id/navigateToRegionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
