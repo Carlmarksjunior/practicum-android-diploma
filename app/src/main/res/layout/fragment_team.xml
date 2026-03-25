@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".feature.team.ui.TeamFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/team_tv"
+        style="@style/ScreenTitleTextStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/bottom_nav_team" />
+        android:layout_height="wrap_content"
+        android:text="@string/team" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/padding_16"
+        android:layout_marginTop="@dimen/padding_16"
+        android:layout_marginBottom="@dimen/padding_24"
+        android:fontFamily="@font/ys_display_bold"
+        android:paddingVertical="@dimen/padding_8"
+        android:text="@string/team_title"
+        android:textColor="?attr/colorOnBackgroundPrimary"
+        android:textSize="@dimen/text_size_32" />
+
+    <TextView
+        android:id="@+id/first_dev_tv"
+        style="@style/DevNameTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/first_dev" />
+
+    <TextView
+        android:id="@+id/second_dev_tv"
+        style="@style/DevNameTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/second_dev" />
+
+    <TextView
+        android:id="@+id/third_dev_tv"
+        style="@style/DevNameTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/third_dev" />
+
+    <TextView
+        android:id="@+id/forth_dev_tv"
+        style="@style/DevNameTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/forth_dev" />
+
+</LinearLayout>
