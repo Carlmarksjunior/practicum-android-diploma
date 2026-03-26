@@ -111,10 +111,12 @@
         android:id="@+id/searchResultsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
         android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@+id/searchContainer" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vacanciesCountText" />
 
     <ProgressBar
         android:id="@+id/mainSearchProgressBar"
@@ -192,14 +194,14 @@
         android:layout_width="159dp"
         android:layout_height="27dp"
         android:layout_marginTop="3dp"
-        android:textSize="@dimen/text_size_16"
         android:background="@drawable/bg_rounded_text"
         android:fontFamily="@font/ys_display_regular"
         android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:visibility="invisible"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/searchContainer"/>
+        app:layout_constraintTop_toBottomOf="@+id/searchContainer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
