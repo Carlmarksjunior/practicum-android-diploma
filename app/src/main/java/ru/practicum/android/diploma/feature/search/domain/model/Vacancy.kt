@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.feature.search.domain.model
 
-import retrofit2.http.Url
 import ru.practicum.android.diploma.feature.search.data.dto.AddressDto
 import ru.practicum.android.diploma.feature.search.data.dto.EmployerDto
 import ru.practicum.android.diploma.feature.search.data.dto.SalaryDto
@@ -13,4 +12,3 @@ data class Vacancy(
     val employer: EmployerDto? = null,
     val url: String? = null
 )
-

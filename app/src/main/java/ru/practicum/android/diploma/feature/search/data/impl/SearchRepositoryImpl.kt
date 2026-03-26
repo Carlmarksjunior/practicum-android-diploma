@@ -11,12 +11,13 @@ import ru.practicum.android.diploma.feature.search.domain.model.Vacancy
 import ru.practicum.android.diploma.util.Resource
 
 class SearchRepositoryImpl(
-    private val networkClient: NetworkClient): SearchRepository {
+    private val networkClient: NetworkClient
+) : SearchRepository {
     override fun searchVacancies(
         expression: String,
         filter: SearchFilters?,
         pager: Int
-    ): Flow<Resource<List<Vacancy>>> = flow{
+    ): Flow<Resource<List<Vacancy>>> = flow {
         val filters = mutableMapOf<String, String>()
         filters["text"] = expression
         filters["page"] = pager.toString()
@@ -34,10 +35,12 @@ class SearchRepositoryImpl(
                 val data = (response as VacancySearchResponse).vacancies.map { it.toDomain() }
                 emit(Resource.Success(data))
             }
+
             NO_INTERNET_CODE -> emit(Resource.Error("Проверьте подключение к интернету"))
             else -> emit(Resource.Error("Ошибка сервера"))
         }
     }
+
     companion object {
         private const val NO_INTERNET_CODE = -1
         private const val BAD_REQUEST_CODE = 400

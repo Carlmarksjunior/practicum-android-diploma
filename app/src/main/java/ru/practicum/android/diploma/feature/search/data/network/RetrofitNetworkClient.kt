@@ -1,12 +1,13 @@
 package ru.practicum.android.diploma.feature.search.data.network
 
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.practicum.android.diploma.feature.search.data.NetworkClient
 import ru.practicum.android.diploma.feature.search.data.dto.RequestDto
 import ru.practicum.android.diploma.feature.search.data.dto.Response
-import ru.practicum.android.diploma.feature.search.domain.api.VacancyApiService
 import ru.practicum.android.diploma.util.ConnectionChecker
+import java.io.IOException
 
 class RetrofitNetworkClient(
     private val connectionChecker: ConnectionChecker,
@@ -17,30 +18,34 @@ class RetrofitNetworkClient(
         if (!connectionChecker.isConnected()) {
             return Response().apply { code = NO_INTERNET_CODE }
         }
-        if (dto !is RequestDto.WithParams && dto !is RequestDto.WithPathId) {
-            return Response().apply { code = BAD_REQUEST_CODE }
-        }
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = when (dto) {
-                    is RequestDto.WithParams -> vacancyApiService.searchVacancies(dto.params)
-                    is RequestDto.WithPathId -> {/*
-                        реализация поиска по id вакансии для эпика 2
-                        vacancyDetailsApiService.getVacancy(dto.id)
-                    */}
-                }
-                Response().apply {
-                    code = SUCCESS_CODE
-                }
-            } catch (e: Throwable) {
-                Response().apply {
-                    code = SERVER_ERROR_CODE
-                }
+
+        return if (dto is RequestDto.WithParams || dto is RequestDto.WithPathId) {
+            withContext(Dispatchers.IO) {
+                executeRequest(dto)
             }
+        } else {
+            Response().apply { code = BAD_REQUEST_CODE }
+        }
+    }
+
+    private suspend fun executeRequest(dto: RequestDto): Response {
+        return try {
+            val response = when (dto) {
+                is RequestDto.WithParams -> vacancyApiService.searchVacancies(dto.params)
+                is RequestDto.WithPathId -> Response() // заглушка для эпика 2
+            }
+            response.apply { code = SUCCESS_CODE }
+        } catch (e: retrofit2.HttpException) {
+            Log.e(TAG, "HTTP Error", e)
+            Response().apply { code = e.code() }
+        } catch (e: IOException) {
+            Log.e(TAG, "Network Error", e)
+            Response().apply { code = SERVER_ERROR_CODE }
         }
     }
 
     companion object {
+        private const val TAG = "RetrofitNetworkClient" // Решает StringLiteralDuplication
         private const val NO_INTERNET_CODE = -1
         private const val BAD_REQUEST_CODE = 400
         private const val SUCCESS_CODE = 200
