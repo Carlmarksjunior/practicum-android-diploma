@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Два основных цвета: задний фон и текст -->
+    <attr name="colorBackgroundPrimary" format="color"/>
+    <attr name="colorOnBackgroundPrimary" format="color"/>
+    <!-- Цвет контейнера TextField -->
+    <attr name="colorTextField" format="color"/>
+    <!-- Цвет подсказки TextField -->
+    <attr name="colorHintTextField" format="color"/>
+</resources>
