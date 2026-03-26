@@ -58,6 +58,7 @@ dependencies {
     // UI layer libraries
     implementation(libs.material)
     implementation(libs.constraintlayout)
+    implementation(libs.recyclerview)
 
     testImplementation(libs.junit4)
     androidTestImplementation(libs.junit.ext)
