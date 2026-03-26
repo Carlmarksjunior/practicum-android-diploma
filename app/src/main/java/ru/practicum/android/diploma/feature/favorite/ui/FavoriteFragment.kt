@@ -23,6 +23,18 @@ class FavoriteFragment : Fragment() {
         return binding.root
     }
 
+    private fun showEmptyList() {
+
+    }
+
+    private fun showRecycler() {
+
+    }
+
+    private fun showLoadFailed() {
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.navigateToVacancyButton.setOnClickListener {
