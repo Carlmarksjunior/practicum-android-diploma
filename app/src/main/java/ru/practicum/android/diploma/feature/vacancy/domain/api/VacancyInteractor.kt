@@ -6,6 +6,4 @@ import ru.practicum.android.diploma.feature.vacancy.data.model.VacancyDetail
 interface VacancyInteractor {
     fun getVacancyDetail(id: String): Flow<VacancyDetail?>
     fun shareVacancy()
-    fun addVacancyToFavorite(vacancy: VacancyDetail)
-    fun delVacancyFromFavorite(vacancy: VacancyDetail)
 }
