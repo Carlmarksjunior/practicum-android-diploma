@@ -61,4 +61,12 @@
     <string name="favorites">Избранное</string>
     <string name="empty_list">Список пуст</string>
 
+    <!-- Fragment "Команда" -->
+    <string name="team">Команда</string>
+    <string name="team_title">Над приложением работали</string>
+    <string name="first_dev">Артем Кашицын</string>
+    <string name="second_dev">Сергей Обрывко</string>
+    <string name="third_dev">Павел Бородин</string>
+    <string name="forth_dev">Иван Юрченко</string>
+
 </resources>
