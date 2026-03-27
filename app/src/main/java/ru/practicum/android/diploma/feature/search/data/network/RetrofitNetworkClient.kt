@@ -6,6 +6,7 @@ import kotlinx.coroutines.withContext
 import ru.practicum.android.diploma.feature.search.data.NetworkClient
 import ru.practicum.android.diploma.feature.search.data.dto.RequestDto
 import ru.practicum.android.diploma.feature.search.data.dto.Response
+import ru.practicum.android.diploma.feature.search.domain.api.VacancyApiService
 import ru.practicum.android.diploma.util.ConnectionChecker
 import java.io.IOException
 

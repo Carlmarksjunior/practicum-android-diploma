@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.feature.search.data.network
+package ru.practicum.android.diploma.feature.search.domain.api
 
 import retrofit2.http.GET
 import retrofit2.http.Path
