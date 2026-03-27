@@ -69,4 +69,9 @@
     <string name="third_dev">Павел Бородин</string>
     <string name="forth_dev">Иван Юрченко</string>
 
+    <!-- Item вакансии -->
+    <string name="name_and_region">Название вакансии, Регион</string>
+    <string name="employer">Работодатель</string>
+    <string name="salary">от 000 до 000 Р</string>
+
 </resources>

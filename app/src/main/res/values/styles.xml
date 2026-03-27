@@ -24,4 +24,10 @@
         <item name="android:paddingVertical">19dp</item>
         <item name="android:textColor">?attr/colorOnBackgroundPrimary</item>
     </style>
+
+    <style name="roundedImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
 </resources>
