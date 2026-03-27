@@ -1,10 +1,6 @@
 package ru.practicum.android.diploma.feature.search.data.dto
 
 sealed interface RequestDto {
-    interface WithParams {
-        fun toRequestParams(): Map<String, String>
-    }
-    interface WithPathId {
-        fun getRequestPathId(): Int
-    }
+    data class WithParams(val params: Map<String, String>) : RequestDto
+    data class WithPathId(val id: String) : RequestDto
 }

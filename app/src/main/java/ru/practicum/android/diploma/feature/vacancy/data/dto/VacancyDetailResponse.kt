@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.feature.vacancy.data.model
+package ru.practicum.android.diploma.feature.vacancy.data.dto
 
 import ru.practicum.android.diploma.feature.search.data.dto.AddressDto
 import ru.practicum.android.diploma.feature.search.data.dto.AreaDto
@@ -7,10 +7,11 @@ import ru.practicum.android.diploma.feature.search.data.dto.EmployerDto
 import ru.practicum.android.diploma.feature.search.data.dto.EmploymentDto
 import ru.practicum.android.diploma.feature.search.data.dto.ExperienceDto
 import ru.practicum.android.diploma.feature.search.data.dto.IndustryDto
+import ru.practicum.android.diploma.feature.search.data.dto.Response
 import ru.practicum.android.diploma.feature.search.data.dto.SalaryDto
 import ru.practicum.android.diploma.feature.search.data.dto.ScheduleDto
 
-data class VacancyDetail(
+class VacancyDetailResponse(
     val id: String,
     val name: String,
     val salary: SalaryDto? = null,
@@ -25,4 +26,4 @@ data class VacancyDetail(
     val skills: List<String>? = null,
     val url: String? = null,
     val industry: IndustryDto? = null
-)
+) : Response()

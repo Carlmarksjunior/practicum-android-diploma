@@ -5,7 +5,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.BuildConfig
-import ru.practicum.android.diploma.feature.search.domain.api.VacancyApiService
+import ru.practicum.android.diploma.feature.search.data.network.VacancyApiService
 import ru.practicum.android.diploma.util.AuthInterceptor
 
 const val VACANCY_BASE_URL = "https://android-diploma.education-services.ru/"
@@ -20,4 +20,10 @@ val dataModule = module {
             .build()
             .create(VacancyApiService::class.java)
     }
+
+    single<NetworkClient> {
+        RetrofitNetworkClient(get(), get())
+    }
+
+    single<ConnectionChecker> { ConnectionChecker(androidContext()) }
 }
