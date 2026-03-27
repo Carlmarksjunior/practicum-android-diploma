@@ -32,7 +32,7 @@ class RetrofitNetworkClient(
         return try {
             val response = when (dto) {
                 is RequestDto.WithParams -> vacancyApiService.searchVacancies(dto.params)
-                is RequestDto.WithPathId -> TODO()
+                is RequestDto.WithPathId -> vacancyApiService.getVacancyDetail(dto.id)
             }
             response.apply { code = SUCCESS_CODE }
         } catch (e: retrofit2.HttpException) {

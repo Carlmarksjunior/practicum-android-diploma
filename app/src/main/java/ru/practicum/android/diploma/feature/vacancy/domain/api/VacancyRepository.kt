@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.feature.vacancy.domain.model.VacancyDetail
 import ru.practicum.android.diploma.util.Resource
 
-interface VacancyInteractor {
+interface VacancyRepository {
     fun getVacancyDetail(id: String): Flow<Resource<VacancyDetail?>>
     fun sendVacancyViaMessenger(url: String)
     fun selectEmailClientAndSend(email: String)
