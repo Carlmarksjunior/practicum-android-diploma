@@ -45,7 +45,7 @@ class RetrofitNetworkClient(
     }
 
     companion object {
-        private const val TAG = "RetrofitNetworkClient" // Решает StringLiteralDuplication
+        private const val TAG = "RetrofitNetworkClient"
         private const val NO_INTERNET_CODE = -1
         private const val BAD_REQUEST_CODE = 400
         private const val SUCCESS_CODE = 200
