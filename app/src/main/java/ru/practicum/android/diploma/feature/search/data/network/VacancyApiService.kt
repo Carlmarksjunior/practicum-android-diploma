@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.feature.search.domain.api
+package ru.practicum.android.diploma.feature.search.data.network
 
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
@@ -9,4 +9,5 @@ interface VacancyApiService {
     suspend fun searchVacancies(
         @QueryMap params: Map<String, String>
     ): VacancySearchResponse
+
 }
