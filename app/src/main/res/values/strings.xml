@@ -11,7 +11,7 @@
     <string name="search_hint">Введите запрос</string>
     <string name="no_internet">Нет интернета</string>
     <string name="server_error">Ошибка сервера</string>
-    <string name="failed_to_load_vacancies">Не удалось получить список вакансий</string>
+    <string name="failed_to_load_vacancies">Не удалось получить\n список вакансий</string>
     <string name="no_vacancies_found">Таких вакансий нет</string>
     <string name="vacancies_found">Найдено</string>
     <string name="vacancies">вакансий</string>
@@ -36,7 +36,7 @@
     <string name="select_region">Выбор региона</string>
     <string name="enter_region">Введите регион</string>
     <string name="region_not_found">Такого региона нет</string>
-    <string name="failed_to_load_regions">Не удалось получить список</string>
+    <string name="failed_to_load_regions">Не удалось получить\n список</string>
 
     <!-- Fragment "Выбор отрасли" -->
     <string name="select_industry">Выбор отрасли</string>
@@ -55,7 +55,7 @@
     <string name="requirements">Требования</string>
     <string name="conditions">Условия</string>
     <string name="key_skills">Ключевые навыки</string>
-    <string name="vacancy_not_found">Вакансия не найдена или удалена</string>
+    <string name="vacancy_not_found">Вакансия не найдена или\nудалена</string>
 
     <!-- Fragment "Избранное" -->
     <string name="favorites">Избранное</string>
