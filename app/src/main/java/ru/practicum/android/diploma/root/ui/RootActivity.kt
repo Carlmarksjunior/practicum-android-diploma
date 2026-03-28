@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.ui.setupWithNavController
-import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.ActivityRootBinding
 import ru.practicum.android.diploma.util.getNavController
@@ -27,12 +26,5 @@ class RootActivity : AppCompatActivity() {
                 destination.id == R.id.favoriteFragment ||
                 destination.id == R.id.teamFragment
         }
-
-        // Пример использования access token для HeadHunter API
-        networkRequestExample(accessToken = BuildConfig.API_ACCESS_TOKEN)
-    }
-
-    private fun networkRequestExample(accessToken: String) {
-        // ...
     }
 }
