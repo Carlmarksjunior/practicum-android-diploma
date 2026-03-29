@@ -5,7 +5,6 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -53,15 +52,15 @@ class VacancyFragment : Fragment() {
             var upperId = binding.vacancyContactEmail.id
             for (phone in phones) {
                 if (phone.comment != null) {
-                    val phoneTextView = MaterialTextView(getPhoneCommentContextThemeWrapper())
-                    upperId = initPhoneView(phoneTextView, upperId, phone.comment)
-                    binding.vacancyLayout.addView(phoneTextView)
+                    upperId = initPhoneView(
+                        MaterialTextView(getPhoneCommentContextThemeWrapper()), upperId, phone.comment
+                    )
                 }
-                val button = Button(getPhoneContextThemeWrapper())
-                button.setOnClickListener { /* нажатие на номер телефона */ }
-                upperId = initPhoneView(button, upperId, phone.phone)
-                button.background = null
-                binding.vacancyLayout.addView(button)
+                val phoneTextView = MaterialTextView(getPhoneContextThemeWrapper())
+                phoneTextView.setOnClickListener { /* нажатие на номер телефона */ }
+                upperId = initPhoneView(
+                    phoneTextView, upperId, phone.phone
+                )
             }
         }
     }
@@ -79,6 +78,7 @@ class VacancyFragment : Fragment() {
             this.text = text
             layoutParams = getPhoneLayoutParams(upperId)
         }
+        binding.vacancyLayout.addView(view)
         return generatedId
     }
 
@@ -98,7 +98,7 @@ class VacancyFragment : Fragment() {
         horizontalBias = HORIZONTAL_BIAS
     }
 
-    private fun getPhoneContextThemeWrapper() = ContextThemeWrapper(requireContext(), R.style.PhoneButtonStyle)
+    private fun getPhoneContextThemeWrapper() = ContextThemeWrapper(requireContext(), R.style.VacancyContactHighlightTextViewStyle)
     private fun getPhoneCommentContextThemeWrapper() =
         ContextThemeWrapper(requireContext(), R.style.VacancyDetailsSingleTextViewStyle)
 

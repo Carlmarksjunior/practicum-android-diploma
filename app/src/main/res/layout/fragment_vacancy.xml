@@ -257,9 +257,9 @@
                 app:layout_constraintTop_toBottomOf="@id/vacancy_contacts_label"
                 tools:text="Попов Андрей Сергеевич" />
 
-            <com.google.android.material.button.MaterialButton
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/vacancy_contact_email"
-                style="@style/EmailMaterialButtonStyle"
+                style="@style/VacancyContactHighlightTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_8"
