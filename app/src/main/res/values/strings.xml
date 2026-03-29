@@ -60,6 +60,7 @@
     <!-- Fragment "Избранное" -->
     <string name="favorites">Избранное</string>
     <string name="empty_list">Список пуст</string>
+    <string name="unsuccessful_query">Не удалось получить список вакансий</string>
 
     <!-- Fragment "Команда" -->
     <string name="team">Команда</string>
