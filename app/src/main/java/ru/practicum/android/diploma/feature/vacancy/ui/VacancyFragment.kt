@@ -13,6 +13,7 @@ import com.google.android.material.textview.MaterialTextView
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 import ru.practicum.android.diploma.feature.vacancy.ui.model.PhoneInfo
+import ru.practicum.android.diploma.util.fromDpToPx
 
 class VacancyFragment : Fragment() {
 
@@ -91,7 +92,7 @@ class VacancyFragment : Fragment() {
         ConstraintLayout.LayoutParams.WRAP_CONTENT
     ).apply {
         topToBottom = upperId
-        topMargin = PHONE_VIEW_TOP_MARGIN
+        topMargin = PHONE_VIEW_TOP_MARGIN.fromDpToPx(requireActivity())
         startToEnd = binding.start16Line.id
         endToStart = binding.end16Line.id
         horizontalBias = HORIZONTAL_BIAS
