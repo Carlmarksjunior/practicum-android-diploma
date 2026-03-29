@@ -98,7 +98,10 @@ class VacancyFragment : Fragment() {
         horizontalBias = HORIZONTAL_BIAS
     }
 
-    private fun getPhoneContextThemeWrapper() = ContextThemeWrapper(requireContext(), R.style.VacancyContactHighlightTextViewStyle)
+    private fun getPhoneContextThemeWrapper() = ContextThemeWrapper(
+        requireContext(),
+        R.style.VacancyContactHighlightTextViewStyle
+    )
     private fun getPhoneCommentContextThemeWrapper() =
         ContextThemeWrapper(requireContext(), R.style.VacancyDetailsSingleTextViewStyle)
 
