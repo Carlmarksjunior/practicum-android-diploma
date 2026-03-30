@@ -7,6 +7,6 @@ import ru.practicum.android.diploma.feature.favorite.presentation.FavoriteFragme
 val viewModelModule = module {
 
     viewModel {
-        FavoriteFragmentViewModel(get())
+        FavoriteFragmentViewModel(get(), get())
     }
 }

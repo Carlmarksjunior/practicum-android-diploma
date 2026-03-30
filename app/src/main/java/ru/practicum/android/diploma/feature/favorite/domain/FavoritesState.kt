@@ -4,8 +4,6 @@ import ru.practicum.android.diploma.feature.vacancy.domain.model.VacancyDetail
 
 sealed interface FavoritesState {
 
-    object Loading : FavoritesState
-
     data class Content(
         val vacancies: List<VacancyDetail>,
     ) : FavoritesState
@@ -17,5 +15,4 @@ sealed interface FavoritesState {
     data class Empty(
         val message: String
     ) : FavoritesState
-
 }
