@@ -1,5 +1,7 @@
 package ru.practicum.android.diploma.feature.vacancy.domain.model
 
+import kotlinx.serialization.Serializable
+
 data class VacancyDetail(
     val id: String,
     val name: String,
@@ -17,6 +19,7 @@ data class VacancyDetail(
     val industry: Industry? = null
 )
 
+@Serializable
 data class Salary(
     val id: String? = null,
     val currency: String? = null,
@@ -24,6 +27,7 @@ data class Salary(
     val to: Int? = null
 )
 
+@Serializable
 data class Address(
     val id: String? = null,
     val city: String? = null,
@@ -32,21 +36,25 @@ data class Address(
     val raw: String? = null
 )
 
+@Serializable
 data class Experience(
     val id: String? = null,
     val name: String? = null
 )
 
+@Serializable
 data class Schedule(
     val id: String? = null,
     val name: String? = null
 )
 
+@Serializable
 data class Employment(
     val id: String? = null,
     val name: String? = null
 )
 
+@Serializable
 data class Contacts(
     val id: String? = null,
     val name: String? = null,
@@ -54,17 +62,20 @@ data class Contacts(
     val phones: List<Phone>? = null
 )
 
+@Serializable
 data class Phone(
     val comment: String? = null,
     val formatted: String? = null
 )
 
+@Serializable
 data class Employer(
     val id: String? = null,
     val name: String? = null,
     val logo: String? = null
 )
 
+@Serializable
 data class Area(
     val id: String? = null,
     val parentId: String? = null,
@@ -72,6 +83,7 @@ data class Area(
     val areas: List<Area>? = null
 )
 
+@Serializable
 data class Industry(
     val id: String? = null,
     val name: String? = null

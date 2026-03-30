@@ -2,27 +2,28 @@ package ru.practicum.android.diploma.feature.favorite.domain.impl
 
 import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.feature.favorite.domain.api.FavoriteInteractor
-import ru.practicum.android.diploma.feature.search.domain.model.Vacancy
+import ru.practicum.android.diploma.feature.favorite.domain.api.FavoriteRepository
+import ru.practicum.android.diploma.feature.vacancy.domain.model.VacancyDetail
 
-class FavoriteInteractorImpl: FavoriteInteractor {
+class FavoriteInteractorImpl(private val favoriteRepository: FavoriteRepository) : FavoriteInteractor {
 
-    override fun addToFavorites(vacancy: Vacancy) {
-        TODO("Not yet implemented")
+    override suspend fun addToFavorites(vacancy: VacancyDetail) {
+        favoriteRepository.addToFavorite(vacancy)
     }
 
-    override fun removeFromFavorites(vacancyId: String) {
-        TODO("Not yet implemented")
+    override suspend fun removeFromFavorites(vacancyId: String) {
+        favoriteRepository.removeFavoriteById(vacancyId)
     }
 
-    override fun getFromFavoritesById(vacancyId: String): Vacancy? {
-        TODO("Not yet implemented")
+    override suspend fun getFromFavoritesById(vacancyId: String): VacancyDetail {
+        return favoriteRepository.getVacancyById(vacancyId)
     }
 
-    override fun isFavorite(vacancyId: String): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun isFavorite(vacancyId: String): Boolean {
+        return favoriteRepository.isFavorite(vacancyId)
     }
 
-    override fun getFavorites(offset: Int): Flow<List<Vacancy>> {
-        TODO("Not yet implemented")
+    override fun getFavorites(offset: Int, limit: Int): Flow<List<VacancyDetail>> {
+        return favoriteRepository.getFavorites(offset, limit)
     }
 }

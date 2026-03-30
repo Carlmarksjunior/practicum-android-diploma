@@ -18,6 +18,6 @@ val interactorModule = module {
     }
 
     single<FavoriteInteractor> {
-        FavoriteInteractorImpl()
+        FavoriteInteractorImpl(get())
     }
 }

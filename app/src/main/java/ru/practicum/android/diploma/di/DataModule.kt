@@ -1,11 +1,13 @@
 package ru.practicum.android.diploma.di
 
+import androidx.room.Room
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.BuildConfig
+import ru.practicum.android.diploma.db.data.AppDatabase
 import ru.practicum.android.diploma.feature.search.data.NetworkClient
 import ru.practicum.android.diploma.feature.search.data.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.feature.search.data.network.VacancyApiService
@@ -37,5 +39,13 @@ val dataModule = module {
 
     single<ExternalNavigator> {
         ExternalNavigatorImpl(androidContext())
+    }
+
+    single {
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db").build()
+    }
+
+    single {
+        get<AppDatabase>().getVacancyDao()
     }
 }
