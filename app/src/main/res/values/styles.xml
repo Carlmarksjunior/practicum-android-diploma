@@ -29,5 +29,55 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12dp</item>
     </style>
-
+    <style name="HeaderImageButtonStyle">
+        <item name="android:layout_marginVertical">@dimen/padding_12</item>
+        <item name="android:background">@null</item>
+        <item name="android:padding">8dp</item>
+        <item name="tint">?attr/colorOnBackgroundPrimary</item>
+    </style>
+    <style name="VacancyText">
+        <item name="android:textColor">?attr/colorOnBackgroundPrimary</item>
+        <item name="layout_constraintHorizontal_bias">0</item>
+    </style>
+    <style name="VacancyMultiLineTextViewStyle" parent="VacancyText">
+        <item name="layout_constrainedWidth">true</item>
+    </style>
+    <style name="VacancySingleLineTextViewStyle" parent="VacancyText">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    <style name="VacancyDetailsHeaderTextViewStyle" parent="VacancySingleLineTextViewStyle">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">@dimen/text_size_22</item>
+    </style>
+    <style name="VacancyDetailsTextViewStyle" parent="VacancyMultiLineTextViewStyle">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+    <style name="VacancyDetailsSingleTextViewStyle" parent="VacancySingleLineTextViewStyle">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+    <style name="VacancyErrorFrameLayoutStyle">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginHorizontal">@dimen/padding_16</item>
+    </style>
+    <style name="VacancyErrorTextViewStyle">
+        <item name="android:layout_marginTop">239dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">?attr/colorOnBackgroundPrimary</item>
+    </style>
+    <style name="VacancyEmployerTextViewStyle" parent="VacancySingleLineTextViewStyle">
+        <item name="android:layout_marginStart">56dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="VacancyContactHighlightTextViewStyle" parent="VacancySingleLineTextViewStyle">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+    </style>
 </resources>
