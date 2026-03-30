@@ -27,7 +27,10 @@ class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
             putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
-        context.startActivity(intent)
+        val chooser = Intent.createChooser(intent, null).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(chooser)
     }
 
     override fun makeCall(phoneNumber: String) {
@@ -35,6 +38,9 @@ class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
             data = Uri.parse("tel:$phoneNumber")
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
-        context.startActivity(intent)
+        val chooser = Intent.createChooser(intent, null).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(chooser)
     }
 }

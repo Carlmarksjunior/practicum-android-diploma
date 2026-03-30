@@ -23,7 +23,7 @@ class VacancyRepositoryImpl(
                 emit(Resource.Success(vacancyDetailMapper.map(data)))
             }
 
-            NO_INTERNET_CODE -> emit(Resource.Error("Проверьте подключение к интернету"))
+            NO_INTERNET_CODE -> emit(Resource.Error("Нет интернета"))
             else -> emit(Resource.Error("Ошибка сервера"))
         }
     }

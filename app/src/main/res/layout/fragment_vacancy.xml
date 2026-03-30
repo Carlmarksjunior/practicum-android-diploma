@@ -125,7 +125,6 @@
                     android:layout_width="@dimen/company_logotype_size"
                     android:layout_height="@dimen/company_logotype_size"
                     android:background="@null"
-                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_placeholder"
                     app:shapeAppearance="@style/roundedImageView" />
 
@@ -305,6 +304,7 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/serverError"
         style="@style/VacancyErrorFrameLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -325,6 +325,7 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/noInternetPlaceHolder"
         style="@style/VacancyErrorFrameLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -345,6 +346,7 @@
     </FrameLayout>
 
     <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="@dimen/progress_bar_size"
         android:layout_height="@dimen/progress_bar_size"
         android:layout_gravity="center"
