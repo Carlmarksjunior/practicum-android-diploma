@@ -1,3 +1,9 @@
 package ru.practicum.android.diploma.feature.filter.domain.model
 
-class SearchFilters
+data class SearchFilters(
+    val areaId: String? = null,
+    val industryId: String? = null,
+    val salary: Int? = null,
+    val isOnlyWithSalary: Boolean = false,
+
+)

@@ -5,7 +5,7 @@ import ru.practicum.android.diploma.feature.filter.domain.model.SearchFilters
 import ru.practicum.android.diploma.feature.search.domain.model.Vacancy
 import ru.practicum.android.diploma.util.Resource
 
-interface SearchInteractor {
+interface SearchRepository {
     fun searchVacancies(
         expression: String,
         filter: SearchFilters?,
