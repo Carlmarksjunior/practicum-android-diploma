@@ -64,7 +64,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/vacancy_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/padding_8">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/start_16_line"

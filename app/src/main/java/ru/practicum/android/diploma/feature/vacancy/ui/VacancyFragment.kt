@@ -49,7 +49,7 @@ class VacancyFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        val idTest = "026e3822-7106-4332-a39e-35e6dadd6936"
+        val idTest = "00072a6b-b4a0-4547-9913-3ffa27cdbf32"
         vacancyViewModel.getVacancyDetail(idTest)
         vacancyViewModel.observeVacancyDetail().observe(viewLifecycleOwner) {
             render(it)
@@ -114,47 +114,7 @@ class VacancyFragment : Fragment() {
 
             val rawDescription = vacancy.description
 
-            val formattedHtml = rawDescription?.let { raw ->
-                val blocks = raw.split("\n\n")
-                val result = StringBuilder()
-
-                blocks.forEachIndexed { index, block ->
-                    val lines = block.split("\n").map { it.trim() }.filter { it.isNotBlank() }
-                    if (lines.isEmpty()) return@forEachIndexed
-
-                    val firstLine = lines[0]
-                    // Универсальный заголовок: оканчивается на ":" или короткая строка
-                    val isHeader = firstLine.endsWith(":")
-
-                    // Добавляем лишний перенос перед заголовком, если это не самый первый блок
-                    if (isHeader && index > 0) {
-                        result.append("<br><br>")
-                    } else if (index > 0) {
-                        result.append("<br>")
-                    }
-
-                    if (isHeader) {
-                        result.append("<strong>$firstLine</strong>")
-                        if (lines.size > 1) {
-                            val listItems = lines.drop(1).joinToString("<br>") { line ->
-                                "&nbsp;&nbsp;•&nbsp;${line.removePrefix("-").removePrefix("•").trim()}"
-                            }
-                            result.append("<br>$listItems")
-                        }
-                    } else {
-                        if (lines.size > 1) {
-                            result.append(lines.joinToString("<br>") { line ->
-                                "&nbsp;&nbsp;•&nbsp;${line.removePrefix("-").removePrefix("•").trim()}"
-                            })
-                        } else {
-                            result.append(firstLine)
-                        }
-                    }
-                }
-                result.toString()
-            }
-
-            binding.vacancyDescription.text = Html.fromHtml(formattedHtml, Html.FROM_HTML_MODE_LEGACY)
+            binding.vacancyDescription.text = formatRawDescription(rawDescription)
 
 
             // 6. Ключевые навыки (используем skillsGroup для управления видимостью)
@@ -201,6 +161,76 @@ class VacancyFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun formatRawDescription(rawText: String?): CharSequence {
+        if (rawText.isNullOrBlank()) return ""
+
+        val spannableBuilder = android.text.SpannableStringBuilder()
+
+        // Разделяем на строки и очищаем от лишних пробелов
+        val lines = rawText.split("\n")
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+
+        lines.forEach { line ->
+            // Очищаем строку от стандартных маркеров списков
+            val cleanLine = line.removePrefix("-").removePrefix("•").removePrefix("*").trim()
+
+            // Критерии заголовка (короткая строка, двоеточие в конце или отсутствие знаков препинания)
+            val isHeader = line.endsWith(":") || (
+                line.length < 30 &&
+                    !line.endsWith(".") &&
+                    !line.endsWith(";") &&
+                    !line.contains(",")
+                )
+
+            if (isHeader) {
+                // Убираем двоеточие в конце заголовка, если оно есть
+                val headerTitle = cleanLine.removeSuffix(":")
+
+                if (spannableBuilder.isNotEmpty()) {
+                    spannableBuilder.append("\n\n")
+                }
+                val start = spannableBuilder.length
+                spannableBuilder.append(headerTitle)
+                val end = spannableBuilder.length
+
+                // Жирный шрифт для заголовка
+                spannableBuilder.setSpan(
+                    android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+                    start,
+                    end,
+                    android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            } else {
+                // Это пункт списка
+                if (spannableBuilder.isNotEmpty()) {
+                    spannableBuilder.append("\n")
+                }
+
+                val start = spannableBuilder.length
+
+                // "  •  " создает визуальный сдвиг вправо перед точкой
+                val bulletPrefix = "  •  "
+                spannableBuilder.append("$bulletPrefix$cleanLine")
+                val end = spannableBuilder.length
+
+                // Настраиваем отступы для переноса строк
+                // first: 0 (префикс уже в строке)
+                // rest: 44px — это ширина "  •  " для шрифта 16sp, чтобы текст был ровно друг под другом
+                val leadingMarginInPx = 44
+
+                spannableBuilder.setSpan(
+                    android.text.style.LeadingMarginSpan.Standard(0, leadingMarginInPx),
+                    start,
+                    end,
+                    android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+        }
+
+        return spannableBuilder
     }
 
     private fun formatSalary(salary: ru.practicum.android.diploma.feature.vacancy.domain.model.Salary): String {
