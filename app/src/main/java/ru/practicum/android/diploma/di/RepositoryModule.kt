@@ -11,7 +11,7 @@ import ru.practicum.android.diploma.feature.vacancy.domain.api.VacancyRepository
 
 val repositoryModule = module {
     single<SearchRepository> {
-        SearchRepositoryImpl(get())
+        SearchRepositoryImpl(get(),get())
     }
     single<VacancyRepository> {
         VacancyRepositoryImpl(get(), get(), get())

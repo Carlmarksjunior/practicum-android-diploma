@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.feature.search.data.impl
 
+import ru.practicum.android.diploma.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.feature.filter.domain.model.SearchFilters
@@ -9,9 +10,11 @@ import ru.practicum.android.diploma.feature.search.data.dto.VacancySearchRespons
 import ru.practicum.android.diploma.feature.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.feature.search.domain.model.Vacancy
 import ru.practicum.android.diploma.util.Resource
+import ru.practicum.android.diploma.util.ResourceProvider
 
 class SearchRepositoryImpl(
-    private val networkClient: NetworkClient
+    private val networkClient: NetworkClient,
+    private val resourceProvider: ResourceProvider
 ) : SearchRepository {
     override fun searchVacancies(
         expression: String,
@@ -36,8 +39,8 @@ class SearchRepositoryImpl(
                 emit(Resource.Success(data))
             }
 
-            NO_INTERNET_CODE -> emit(Resource.Error("Проверьте подключение к интернету"))
-            else -> emit(Resource.Error("Ошибка сервера"))
+            NO_INTERNET_CODE -> emit(Resource.Error(resourceProvider.getString(R.string.no_internet)))
+            else -> emit(Resource.Error(resourceProvider.getString(R.string.server_error)))
         }
     }
 

@@ -15,6 +15,8 @@ import ru.practicum.android.diploma.feature.vacancy.data.ExternalNavigator
 import ru.practicum.android.diploma.feature.vacancy.data.navigator.ExternalNavigatorImpl
 import ru.practicum.android.diploma.util.AuthInterceptor
 import ru.practicum.android.diploma.util.ConnectionChecker
+import ru.practicum.android.diploma.util.ResourceProvider
+import ru.practicum.android.diploma.util.ResourceProviderImpl
 
 const val VACANCY_BASE_URL = "https://android-diploma.education-services.ru/"
 
@@ -47,5 +49,9 @@ val dataModule = module {
 
     single {
         get<AppDatabase>().getVacancyDao()
+    }
+
+    single<ResourceProvider> {
+        ResourceProviderImpl(androidContext())
     }
 }
