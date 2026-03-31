@@ -50,7 +50,8 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     }
 
     fun onListScroll(lastVisibleItemPosition: Int) {
-        if (itemPositionInvokingSearch != -1 && itemPositionInvokingSearch <= lastVisibleItemPosition && currentPage < maxPage) {
+        if (itemPositionInvokingSearch != -1 &&
+            itemPositionInvokingSearch <= lastVisibleItemPosition && currentPage < maxPage) {
             searchState.value = SearchState.LoadingMore
             if (currentPage != lastRequestedPage) {
                 lastRequestedPage = currentPage
@@ -64,6 +65,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
                                     errorPagingEvent.value = PagingErrorEvent.RequestError(R.string.server_error)
                                 })
                             }
+
                             is Resource.Success<VacancyListInfo> -> {
                                 val data = vacancyList.data!!
                                 onNextPage(data.pages, data.vacancies)
@@ -91,6 +93,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
                             searchState.value = SearchState.Result(vacancies, data.found)
                         }
                     }
+
                     is Resource.Error -> {
                         errorCodeResolve(vacancyList.message!!, {
                             searchState.value = SearchState.NetworkError(R.string.no_internet)
@@ -103,11 +106,12 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         }
     }
 
-    private fun errorCodeResolve(message: String, networkError: ()->Unit, requestError: ()->Unit) {
+    private fun errorCodeResolve(message: String, networkError: () -> Unit, requestError: () -> Unit) {
         val errorCode = message.toIntOrNull()
         errorCode?.apply {
-            if (this == -1)
+            if (this == -1) {
                 networkError()
+            }
         } ?: {
             requestError()
         }

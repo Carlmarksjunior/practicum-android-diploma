@@ -41,12 +41,34 @@ class SearchFragment : Fragment() {
             requireActivity().getNavController(R.id.containerView).navigate(action)
         }
         binding.searchResultsRecyclerView.adapter = adapter
+        observeEvents()
+        observeState(adapter)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun observeEvents() {
         searchViewModel.observeErrorPagingEvent().observe(viewLifecycleOwner) { error ->
-            when(error) {
-                is PagingErrorEvent.NetworkError -> Toast.makeText(requireContext(), context?.getString(error.message), Toast.LENGTH_SHORT).show()
-                is PagingErrorEvent.RequestError -> Toast.makeText(requireContext(), context?.getString(error.message), Toast.LENGTH_SHORT).show()
+            when (error) {
+                is PagingErrorEvent.NetworkError -> Toast.makeText(
+                    requireContext(),
+                    context?.getString(error.message),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                is PagingErrorEvent.RequestError -> Toast.makeText(
+                    requireContext(),
+                    context?.getString(error.message),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
+    }
+
+    private fun observeState(adapter: VacanciesAdapter) {
         searchViewModel.observeSearchState().observe(viewLifecycleOwner) { state ->
             toggleVisibilityWithoutGroup(state)
             toggleVisibilityPlaceholder(state)
@@ -55,36 +77,37 @@ class SearchFragment : Fragment() {
                     adapter.submitList(state.vacancies)
                     binding.vacanciesCountText.text = context?.getString(R.string.vacancies_n_found, state.founded)
                 }
+
                 SearchState.EmptyResultError -> {
                     binding.placeholderImage.setImageResource(R.drawable.img_request_unsuccessful_cat)
                     binding.placeholderText.text = context?.getString(R.string.failed_to_load_vacancies)
                     binding.vacanciesCountText.text = context?.getString(R.string.no_vacancies_found)
                 }
+
                 SearchState.Idle -> {
                     binding.placeholderImage.setImageResource(R.drawable.img_search_holder)
                     binding.placeholderImage.isVisible = true
                     binding.searchClearIcon.setImageResource(R.drawable.ic_search)
                 }
+
                 SearchState.InputStarted -> {
                     binding.searchClearIcon.setImageResource(R.drawable.ic_close)
                 }
+
                 is SearchState.NetworkError -> {
                     binding.placeholderImage.setImageResource(R.drawable.img_no_internet_connection)
                     binding.placeholderText.text = context?.getString(state.message)
                 }
+
                 is SearchState.RequestError -> {
                     binding.placeholderImage.setImageResource(R.drawable.img_server_error_entity)
                     binding.placeholderText.text = context?.getString(state.message)
                 }
+
                 SearchState.Loading, SearchState.LoadingMore -> {}
             }
 
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun toggleVisibilityWithoutGroup(state: SearchState) {
@@ -95,7 +118,10 @@ class SearchFragment : Fragment() {
     }
 
     private fun toggleVisibilityPlaceholder(state: SearchState) {
-        if (state is SearchState.NetworkError || state is SearchState.RequestError || state == SearchState.EmptyResultError) {
+        if (state is SearchState.NetworkError ||
+            state is SearchState.RequestError ||
+            state == SearchState.EmptyResultError
+        ) {
             binding.placeholderImage.isVisible = true
             binding.placeholderText.isVisible = true
         } else {
@@ -116,7 +142,8 @@ class SearchFragment : Fragment() {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     searchViewModel.onListScroll(
-                        (binding.searchResultsRecyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                        (binding.searchResultsRecyclerView.layoutManager as LinearLayoutManager)
+                            .findLastVisibleItemPosition()
                     )
                 }
             }
