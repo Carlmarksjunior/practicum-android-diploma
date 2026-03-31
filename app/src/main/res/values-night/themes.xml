@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/blue</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Цвет активити по умолчанию -->
-        <item name="android:background">@color/black</item>
+        <item name="android:windowBackground">@color/black</item>
         <item name="colorBackgroundPrimary">@color/black</item>
         <item name="colorOnBackgroundPrimary">@color/white</item>
         <item name="colorTextField">@color/gray</item>

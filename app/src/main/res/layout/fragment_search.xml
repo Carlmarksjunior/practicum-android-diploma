@@ -11,6 +11,7 @@
         android:id="@+id/searchHeader"
         android:layout_width="match_parent"
         android:layout_height="64dp"
+        app:cardBackgroundColor="?attr/colorBackgroundPrimary"
         app:cardElevation="0dp"
         app:cardMaxElevation="0dp"
         app:layout_constraintTop_toTopOf="parent">
@@ -64,7 +65,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="?attr/colorBackgroundPrimary">
 
             <EditText
                 android:id="@+id/searchInput"
