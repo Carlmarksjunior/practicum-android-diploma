@@ -10,6 +10,7 @@ import ru.practicum.android.diploma.feature.search.data.dto.VacancySearchRespons
 import ru.practicum.android.diploma.feature.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.feature.search.domain.model.Vacancy
 import ru.practicum.android.diploma.feature.search.domain.model.VacancyListInfo
+import ru.practicum.android.diploma.feature.vacancy.data.impl.VacancyDetailMapper
 import ru.practicum.android.diploma.util.Resource
 import ru.practicum.android.diploma.util.ResourceProvider
 
@@ -37,7 +38,7 @@ class SearchRepositoryImpl(
         when (response.code) {
             SUCCESS_CODE -> {
                 val vacancySearchResponse = response as VacancySearchResponse
-                val vacancies = vacancySearchResponse.vacancies.map { it.toDomain() }
+                val vacancies = vacancySearchResponse.vacancies.map { VacancyDetailMapper().map(it) }
                 val result = VacancyListInfo(vacancySearchResponse.found, vacancySearchResponse.pages, vacancies)
                 emit(Resource.Success(result))
             }

@@ -1,3 +1,5 @@
 package ru.practicum.android.diploma.feature.search.domain.model
 
-data class VacancyListInfo(val found: Int, val pages: Int, val vacancies: List<Vacancy>)
+import ru.practicum.android.diploma.feature.vacancy.domain.model.VacancyDetail
+
+data class VacancyListInfo(val found: Int, val pages: Int, val vacancies: List<VacancyDetail>)

@@ -4,8 +4,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.feature.search.data.NetworkClient
 import ru.practicum.android.diploma.feature.search.data.dto.RequestDto
+import ru.practicum.android.diploma.feature.search.data.dto.VacancyDto
 import ru.practicum.android.diploma.feature.vacancy.data.ExternalNavigator
-import ru.practicum.android.diploma.feature.vacancy.data.dto.VacancyDetailResponse
 import ru.practicum.android.diploma.feature.vacancy.domain.api.VacancyRepository
 import ru.practicum.android.diploma.feature.vacancy.domain.model.VacancyDetail
 import ru.practicum.android.diploma.util.Resource
@@ -19,7 +19,7 @@ class VacancyRepositoryImpl(
         val response = networkClient.doRequest(RequestDto.Vacancy(id))
         when (response.code) {
             SUCCESS_CODE -> {
-                val data = response as VacancyDetailResponse
+                val data = response as VacancyDto
                 emit(Resource.Success(vacancyDetailMapper.map(data)))
             }
 

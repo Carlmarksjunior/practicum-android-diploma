@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.feature.vacancy.data.impl
 
 import ru.practicum.android.diploma.feature.search.data.dto.AreaDto
-import ru.practicum.android.diploma.feature.vacancy.data.dto.VacancyDetailResponse
+import ru.practicum.android.diploma.feature.search.data.dto.VacancyDto
 import ru.practicum.android.diploma.feature.vacancy.domain.model.Address
 import ru.practicum.android.diploma.feature.vacancy.domain.model.Area
 import ru.practicum.android.diploma.feature.vacancy.domain.model.Contacts
@@ -15,7 +15,7 @@ import ru.practicum.android.diploma.feature.vacancy.domain.model.Schedule
 import ru.practicum.android.diploma.feature.vacancy.domain.model.VacancyDetail
 
 class VacancyDetailMapper {
-    fun map(response: VacancyDetailResponse): VacancyDetail {
+    fun map(response: VacancyDto): VacancyDetail {
         return VacancyDetail(
             id = response.id,
             name = response.name,
@@ -34,7 +34,7 @@ class VacancyDetailMapper {
         )
     }
 
-    private fun mapContacts(response: VacancyDetailResponse): Contacts? {
+    private fun mapContacts(response: VacancyDto): Contacts? {
         return response.contacts?.let { contactsDto ->
             Contacts(
                 id = contactsDto.id,

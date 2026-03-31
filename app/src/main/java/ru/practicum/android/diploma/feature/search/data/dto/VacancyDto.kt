@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.feature.search.data.dto
 
-data class VacancyDto(
+class VacancyDto(
     val id: String,
     val name: String,
     val salary: SalaryDto? = null,
@@ -15,7 +15,7 @@ data class VacancyDto(
     val skills: List<String>? = null,
     val url: String? = null,
     val industry: IndustryDto? = null
-)
+) : Response()
 
 data class SalaryDto(
     val id: String? = null,
