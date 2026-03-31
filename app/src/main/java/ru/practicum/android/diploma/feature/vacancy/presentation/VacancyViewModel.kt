@@ -19,7 +19,10 @@ class VacancyViewModel(private val vacancyInteractor: VacancyInteractor) : ViewM
             vacancyInteractor.getVacancyDetail(id).collect {
                 when (it) {
                     is Resource.Error -> _vacancyDetail.postValue(VacancyState.Error(it.message!!))
-                    is Resource.Success -> _vacancyDetail.postValue(VacancyState.Content(it.data!!))
+                    is Resource.Success -> {
+                        if (it.data)
+                        _vacancyDetail.postValue(VacancyState.Content(it.data!!))
+                    }
                 }
             }
         }

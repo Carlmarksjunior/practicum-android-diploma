@@ -60,8 +60,6 @@ class VacancyFragment : Fragment() {
             vacancyViewModel.sendVacancyViaMessenger(contentVacancy.url!!)
 
         }
-
-
     }
 
     override fun onDestroyView() {
@@ -81,22 +79,17 @@ class VacancyFragment : Fragment() {
         val vacancy = content.content
         contentVacancy = content.content
         with(binding) {
-            // 1. Управление видимостью основных экранов
+            share.visibility = View.VISIBLE
+            addToFavorites.visibility = View.VISIBLE
             progressBar.visibility = View.GONE
             vacancyLayout.visibility = View.VISIBLE
             serverError.visibility = View.GONE
             noInternetPlaceHolder.visibility = View.GONE
 
-            // Скрываем плейсхолдеры ошибок (если они в отдельных FrameLayout без ID,
-            // обычно они управляются через VacancyState.Error)
-
-            // 2. Основная информация
             vacancyName.text = vacancy.name
             vacancySalary.text = formatSalary(vacancy.salary!!)
 
-            // 3. Блок работодателя
             employerName.text = vacancy.employer?.name
-            // Используем город из address, если нет - из area
             regionCity.text = vacancy.address?.city ?: vacancy.area?.name
 
             Glide.with(requireContext())
@@ -104,36 +97,27 @@ class VacancyFragment : Fragment() {
                 .placeholder(R.drawable.ic_placeholder)
                 .into(employerLogo)
 
-            // 4. Опыт и график
             requiredExperience.text = vacancy.experience?.name
             val scheduleText = "${vacancy.employment?.name}, ${vacancy.schedule?.name}"
             employmentSchedule.text = scheduleText
 
-            // 5. Описание (с поддержкой HTML-тегов)
-
-
             val rawDescription = vacancy.description
+            binding.vacancyDescription.text = rawDescription
 
-            binding.vacancyDescription.text = formatRawDescription(rawDescription)
 
-
-            // 6. Ключевые навыки (используем skillsGroup для управления видимостью)
             if (vacancy.skills.isNullOrEmpty()) {
                 skillsGroup.visibility = View.GONE
             } else {
                 skillsGroup.visibility = View.VISIBLE
-                // Форматируем список навыков с буллитами
-                vacancySkills.text = vacancy.skills.joinToString("\n") { "• $it" }
+                vacancySkills.text = vacancy.skills.joinToString("\n") { " • $it" }
             }
 
-            // 7. Контакты (используем contactGroup)
             val contacts = vacancy.contacts
             if (contacts == null || (contacts.name.isNullOrEmpty() && contacts.email.isNullOrEmpty() && contacts.phones!!.isEmpty())) {
                 contactGroup.visibility = View.GONE
             } else {
                 contactGroup.visibility = View.VISIBLE
 
-                // Имя контактного лица
                 if (!contacts.name.isNullOrEmpty()) {
                     vacancyContactName.text = contacts.name
                     vacancyContactName.visibility = View.VISIBLE
@@ -141,7 +125,6 @@ class VacancyFragment : Fragment() {
                     vacancyContactName.visibility = View.GONE
                 }
 
-                // Email
                 if (!contacts.email.isNullOrEmpty()) {
                     vacancyContactEmail.text = contacts.email
                     vacancyContactEmail.visibility = View.VISIBLE
@@ -152,7 +135,6 @@ class VacancyFragment : Fragment() {
                     vacancyContactEmail.visibility = View.GONE
                 }
 
-                // Обработка телефонов (если у вас есть логика отрисовки списка телефонов)
                 if (contacts.phones!!.isNotEmpty()) {
                     val phoneInfos = contacts.phones.map {
                         PhoneInfo(it.comment, it.formatted!!)
@@ -161,76 +143,6 @@ class VacancyFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun formatRawDescription(rawText: String?): CharSequence {
-        if (rawText.isNullOrBlank()) return ""
-
-        val spannableBuilder = android.text.SpannableStringBuilder()
-
-        // Разделяем на строки и очищаем от лишних пробелов
-        val lines = rawText.split("\n")
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
-
-        lines.forEach { line ->
-            // Очищаем строку от стандартных маркеров списков
-            val cleanLine = line.removePrefix("-").removePrefix("•").removePrefix("*").trim()
-
-            // Критерии заголовка (короткая строка, двоеточие в конце или отсутствие знаков препинания)
-            val isHeader = line.endsWith(":") || (
-                line.length < 30 &&
-                    !line.endsWith(".") &&
-                    !line.endsWith(";") &&
-                    !line.contains(",")
-                )
-
-            if (isHeader) {
-                // Убираем двоеточие в конце заголовка, если оно есть
-                val headerTitle = cleanLine.removeSuffix(":")
-
-                if (spannableBuilder.isNotEmpty()) {
-                    spannableBuilder.append("\n\n")
-                }
-                val start = spannableBuilder.length
-                spannableBuilder.append(headerTitle)
-                val end = spannableBuilder.length
-
-                // Жирный шрифт для заголовка
-                spannableBuilder.setSpan(
-                    android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
-                    start,
-                    end,
-                    android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-            } else {
-                // Это пункт списка
-                if (spannableBuilder.isNotEmpty()) {
-                    spannableBuilder.append("\n")
-                }
-
-                val start = spannableBuilder.length
-
-                // "  •  " создает визуальный сдвиг вправо перед точкой
-                val bulletPrefix = "  •  "
-                spannableBuilder.append("$bulletPrefix$cleanLine")
-                val end = spannableBuilder.length
-
-                // Настраиваем отступы для переноса строк
-                // first: 0 (префикс уже в строке)
-                // rest: 44px — это ширина "  •  " для шрифта 16sp, чтобы текст был ровно друг под другом
-                val leadingMarginInPx = 44
-
-                spannableBuilder.setSpan(
-                    android.text.style.LeadingMarginSpan.Standard(0, leadingMarginInPx),
-                    start,
-                    end,
-                    android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-            }
-        }
-
-        return spannableBuilder
     }
 
     private fun formatSalary(salary: ru.practicum.android.diploma.feature.vacancy.domain.model.Salary): String {
@@ -273,10 +185,14 @@ class VacancyFragment : Fragment() {
     private fun showError(error: VacancyState.Error) {
         binding.progressBar.visibility = View.GONE
         if (error.errorMessage == getString(R.string.no_internet)) {
+            binding.share.visibility = View.GONE
+            binding.addToFavorites.visibility = View.GONE
             binding.noInternetPlaceHolder.visibility = View.VISIBLE
             binding.serverError.visibility = View.GONE
             binding.vacancyLayout.visibility = View.GONE
         }else{
+            binding.share.visibility = View.GONE
+            binding.addToFavorites.visibility = View.GONE
             binding.noInternetPlaceHolder.visibility = View.GONE
             binding.serverError.visibility = View.VISIBLE
             binding.vacancyLayout.visibility = View.GONE
