@@ -9,6 +9,7 @@ import ru.practicum.android.diploma.feature.search.data.dto.RequestDto
 import ru.practicum.android.diploma.feature.search.data.dto.VacancySearchResponse
 import ru.practicum.android.diploma.feature.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.feature.search.domain.model.Vacancy
+import ru.practicum.android.diploma.feature.search.domain.model.VacancyListInfo
 import ru.practicum.android.diploma.util.Resource
 import ru.practicum.android.diploma.util.ResourceProvider
 
@@ -20,7 +21,7 @@ class SearchRepositoryImpl(
         expression: String,
         filter: SearchFilters?,
         pager: Int
-    ): Flow<Resource<List<Vacancy>>> = flow {
+    ): Flow<Resource<VacancyListInfo>> = flow {
         val filters = mutableMapOf<String, String>()
         filters["text"] = expression
         filters["page"] = pager.toString()
@@ -35,8 +36,10 @@ class SearchRepositoryImpl(
 
         when (response.code) {
             SUCCESS_CODE -> {
-                val data = (response as VacancySearchResponse).vacancies.map { it.toDomain() }
-                emit(Resource.Success(data))
+                val vacancySearchResponse = response as VacancySearchResponse
+                val vacancies = vacancySearchResponse.vacancies.map { it.toDomain() }
+                val result = VacancyListInfo(vacancySearchResponse.found, vacancySearchResponse.pages, vacancies)
+                emit(Resource.Success(result))
             }
 
             NO_INTERNET_CODE -> emit(Resource.Error(resourceProvider.getString(R.string.no_internet)))
