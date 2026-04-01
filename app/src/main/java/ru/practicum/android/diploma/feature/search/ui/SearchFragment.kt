@@ -37,7 +37,7 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
         val adapter = VacanciesAdapter { vacancy ->
-            val action = SearchFragmentDirections.actionSearchFragmentToVacancyFragment(vacancy.id)
+            val action = SearchFragmentDirections.actionSearchFragmentToVacancyFragment(vacancy.id,false)
             requireActivity().getNavController(R.id.containerView).navigate(action)
         }
         binding.searchResultsRecyclerView.adapter = adapter

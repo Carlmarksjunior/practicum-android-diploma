@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.practicum.android.diploma.feature.favorite.domain.api.FavoriteInteractor
@@ -39,6 +38,21 @@ class VacancyViewModel(
         }
     }
 
+    fun getVacancyFromDatabase(id: String) {
+        _vacancyDetail.postValue(VacancyState.Loading)
+        viewModelScope.launch {
+            var vacancy: Vacancy? = null
+            withContext(Dispatchers.IO) {
+                vacancy = favoriteInteractor.getFromFavoritesById(id)
+            }
+            vacancy?.apply {
+                _vacancyDetail.postValue(VacancyState.Content(this, true))
+            } ?: run {
+                _vacancyDetail.postValue(VacancyState.Error(DATABASE_ERROR))
+            }
+        }
+    }
+
     fun sendVacancyViaMessenger(url: String) {
         viewModelScope.launch {
             vacancyInteractor.sendVacancyViaMessenger(url)
@@ -66,8 +80,12 @@ class VacancyViewModel(
                     favoriteInteractor.addToFavorites(vacancy)
                 }
                 isFavorite = favoriteInteractor.isFavorite(vacancy.id)
-                _vacancyDetail.postValue(VacancyState.Content(vacancy, isFavorite))
             }
+            _vacancyDetail.postValue(VacancyState.Content(vacancy, isFavorite))
         }
+    }
+
+    companion object {
+        const val DATABASE_ERROR = "DATABASE_ERROR"
     }
 }

@@ -21,8 +21,8 @@ class FavoriteRepositoryImpl(private val vacancyDao: VacancyDao) : FavoriteRepos
         vacancyDao.getAllByPage(offset, limit)
             .map { list -> list.map { it.toVacancyDetail() } }
 
-    override suspend fun getVacancyById(id: String): Vacancy {
-        return vacancyDao.getById(id).toVacancyDetail()
+    override suspend fun getVacancyById(id: String): Vacancy? {
+        return vacancyDao.getById(id)?.toVacancyDetail()
     }
 
     override suspend fun isFavorite(id: String): Boolean {

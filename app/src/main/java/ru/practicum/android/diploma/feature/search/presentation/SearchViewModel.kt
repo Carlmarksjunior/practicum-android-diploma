@@ -112,7 +112,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
             if (this == -1) {
                 networkError()
             }
-        } ?: {
+        } ?: run {
             requestError()
         }
     }

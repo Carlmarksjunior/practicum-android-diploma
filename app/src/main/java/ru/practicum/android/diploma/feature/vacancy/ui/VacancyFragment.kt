@@ -44,7 +44,12 @@ class VacancyFragment : Fragment() {
         }
 
         val id = args.vacancyId
-        vacancyViewModel.getVacancyDetail(id)
+        val dbSource = args.dbSource
+        if (dbSource) {
+            vacancyViewModel.getVacancyFromDatabase(id)
+        } else {
+            vacancyViewModel.getVacancyDetail(id)
+        }
 
         vacancyViewModel.observeVacancyDetail().observe(viewLifecycleOwner) {
             render(it)
@@ -143,6 +148,9 @@ class VacancyFragment : Fragment() {
                     placeHolderForEmpty.visibility = View.VISIBLE
                 }
 
+                VacancyViewModel.DATABASE_ERROR -> {
+                    placeHolderForEmpty.visibility = View.VISIBLE
+                }
                 else -> {
                     serverError.visibility = View.VISIBLE
                 }
