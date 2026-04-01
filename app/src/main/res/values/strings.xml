@@ -89,6 +89,12 @@
     <string name="uzs">So’m</string>
     <string name="gel">₾</string>
     <string name="kgt">с</string>
+    <string name="sek">kr</string>
+    <string name="gbp">£</string>
+    <string name="nzd">NZ$</string>
+    <string name="sgd">S$</string>
+    <string name="aud">A$</string>
+    <string name="hkd">HK$</string>
 
     <!-- Диапазон зарплаты -->
     <string name="salary_null">Зарплата не указана</string>

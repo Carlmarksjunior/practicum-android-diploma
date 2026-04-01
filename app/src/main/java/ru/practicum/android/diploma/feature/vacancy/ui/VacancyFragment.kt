@@ -14,7 +14,7 @@ import ru.practicum.android.diploma.feature.vacancy.domain.model.Vacancy
 import ru.practicum.android.diploma.feature.vacancy.presentation.VacancyState
 import ru.practicum.android.diploma.feature.vacancy.presentation.VacancyViewModel
 import ru.practicum.android.diploma.util.ui.DescriptionFormatterVacancy
-import ru.practicum.android.diploma.util.ui.SalaryFormatterVacancy
+import ru.practicum.android.diploma.util.ui.SalaryFormatter
 
 class VacancyFragment : Fragment() {
 
@@ -43,17 +43,16 @@ class VacancyFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        // можно потестить захардкодить разные id
         val id = args.vacancyId
-        vacancyViewModel.getVacancyDetail(id)
-        vacancyViewModel.checkFavoriteState(id)
+        val dbSource = args.dbSource
+        if (dbSource) {
+            vacancyViewModel.getVacancyFromDatabase(id)
+        } else {
+            vacancyViewModel.getVacancyDetail(id)
+        }
 
         vacancyViewModel.observeVacancyDetail().observe(viewLifecycleOwner) {
             render(it)
-        }
-
-        vacancyViewModel.observeFavoriteState().observe(viewLifecycleOwner) {
-            setIsFavorite(it)
         }
 
         binding.share.setOnClickListener {
@@ -82,6 +81,7 @@ class VacancyFragment : Fragment() {
 
     private fun showContent(content: VacancyState.Content) {
         val vacancy = content.content
+        val isFavorite = content.isFavorite
         contentVacancy = vacancy
         with(binding) {
             placeHolderForEmpty.visibility = View.GONE
@@ -92,6 +92,7 @@ class VacancyFragment : Fragment() {
             serverError.visibility = View.GONE
             noInternetPlaceHolder.visibility = View.GONE
             setupMainInfo(vacancy)
+            setIsFavorite(isFavorite)
             setupSkills(vacancy.skills)
             ContactsFormatter(binding, vacancyViewModel, requireContext()).setupContacts(vacancy)
         }
@@ -100,7 +101,7 @@ class VacancyFragment : Fragment() {
     private fun setupMainInfo(vacancy: Vacancy) {
         with(binding) {
             vacancyName.text = vacancy.name
-            vacancySalary.text = SalaryFormatterVacancy(vacancy.salary, requireContext()).format()
+            vacancySalary.text = SalaryFormatter(vacancy.salary, requireContext()).format()
 
             employerName.text = vacancy.employer?.name
             regionCity.text = vacancy.address?.raw ?: vacancy.area?.name
@@ -147,6 +148,9 @@ class VacancyFragment : Fragment() {
                     placeHolderForEmpty.visibility = View.VISIBLE
                 }
 
+                VacancyViewModel.DATABASE_ERROR -> {
+                    placeHolderForEmpty.visibility = View.VISIBLE
+                }
                 else -> {
                     serverError.visibility = View.VISIBLE
                 }

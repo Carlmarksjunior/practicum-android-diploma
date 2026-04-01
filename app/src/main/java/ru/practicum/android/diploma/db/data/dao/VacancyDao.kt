@@ -21,7 +21,7 @@ interface VacancyDao {
     fun getAllByPage(offset: Int, limit: Int): Flow<List<VacancyEntity>>
 
     @Query("SELECT * FROM favorite_vacancies_table WHERE id = :id")
-    suspend fun getById(id: String): VacancyEntity
+    suspend fun getById(id: String): VacancyEntity?
 
     @Query("SELECT EXISTS(SELECT 1 FROM favorite_vacancies_table WHERE id = :id)")
     suspend fun isFavorite(id: String): Boolean

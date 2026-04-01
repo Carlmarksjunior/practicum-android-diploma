@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.practicum.android.diploma.feature.favorite.domain.api.FavoriteInteractor
 import ru.practicum.android.diploma.feature.vacancy.domain.api.VacancyInteractor
 import ru.practicum.android.diploma.feature.vacancy.domain.model.Vacancy
@@ -17,18 +19,36 @@ class VacancyViewModel(
 
     private val _vacancyDetail = MutableLiveData<VacancyState>()
     fun observeVacancyDetail(): LiveData<VacancyState> = _vacancyDetail
-
-    private val favoriteStateLiveData = MutableLiveData<Boolean>()
-    fun observeFavoriteState(): LiveData<Boolean> = favoriteStateLiveData
+    private var isFavorite = false
 
     fun getVacancyDetail(id: String) {
+        _vacancyDetail.postValue(VacancyState.Loading)
         viewModelScope.launch {
-            _vacancyDetail.postValue(VacancyState.Loading)
+            withContext(Dispatchers.IO) {
+                isFavorite = favoriteInteractor.isFavorite(id)
+            }
+
             vacancyInteractor.getVacancyDetail(id).collect {
                 when (it) {
                     is Resource.Error -> _vacancyDetail.postValue(VacancyState.Error(it.message!!))
-                    is Resource.Success -> _vacancyDetail.postValue(VacancyState.Content(it.data!!))
+                    is Resource.Success -> _vacancyDetail.postValue(VacancyState.Content(it.data!!, isFavorite))
                 }
+            }
+
+        }
+    }
+
+    fun getVacancyFromDatabase(id: String) {
+        _vacancyDetail.postValue(VacancyState.Loading)
+        viewModelScope.launch {
+            var vacancy: Vacancy? = null
+            withContext(Dispatchers.IO) {
+                vacancy = favoriteInteractor.getFromFavoritesById(id)
+            }
+            vacancy?.apply {
+                _vacancyDetail.postValue(VacancyState.Content(this, true))
+            } ?: run {
+                _vacancyDetail.postValue(VacancyState.Error(DATABASE_ERROR))
             }
         }
     }
@@ -51,21 +71,21 @@ class VacancyViewModel(
         }
     }
 
-    fun checkFavoriteState(id: String) {
+    fun handleFavorites(vacancy: Vacancy) {
         viewModelScope.launch {
-            favoriteStateLiveData.postValue(favoriteInteractor.isFavorite(id))
+            withContext(Dispatchers.IO) {
+                if (isFavorite) {
+                    favoriteInteractor.removeFromFavorites(vacancy.id)
+                } else {
+                    favoriteInteractor.addToFavorites(vacancy)
+                }
+                isFavorite = favoriteInteractor.isFavorite(vacancy.id)
+            }
+            _vacancyDetail.postValue(VacancyState.Content(vacancy, isFavorite))
         }
     }
 
-    fun handleFavorites(vacancy: Vacancy) {
-        viewModelScope.launch {
-            if (favoriteStateLiveData.value != null && !favoriteStateLiveData.value!!) {
-                favoriteInteractor.addToFavorites(vacancy)
-                favoriteStateLiveData.postValue(true)
-            } else {
-                favoriteInteractor.removeFromFavorites(vacancy.id)
-                favoriteStateLiveData.postValue(false)
-            }
-        }
+    companion object {
+        const val DATABASE_ERROR = "DATABASE_ERROR"
     }
 }

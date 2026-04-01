@@ -76,7 +76,7 @@ class FavoriteFragment : Fragment() {
 
     private fun onItemClick(vacancy: Vacancy) {
         val action = FavoriteFragmentDirections
-            .actionFavoriteFragmentToVacancyFragment(vacancy.id)
+            .actionFavoriteFragmentToVacancyFragment(vacancy.id, true)
         findNavController().navigate(action)
     }
 
