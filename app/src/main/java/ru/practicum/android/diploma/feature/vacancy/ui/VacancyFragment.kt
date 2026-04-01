@@ -14,7 +14,7 @@ import ru.practicum.android.diploma.feature.vacancy.domain.model.Vacancy
 import ru.practicum.android.diploma.feature.vacancy.presentation.VacancyState
 import ru.practicum.android.diploma.feature.vacancy.presentation.VacancyViewModel
 import ru.practicum.android.diploma.util.ui.DescriptionFormatterVacancy
-import ru.practicum.android.diploma.util.ui.SalaryFormatterVacancy
+import ru.practicum.android.diploma.util.ui.SalaryFormatter
 
 class VacancyFragment : Fragment() {
 
@@ -101,7 +101,7 @@ class VacancyFragment : Fragment() {
     private fun setupMainInfo(vacancy: Vacancy) {
         with(binding) {
             vacancyName.text = vacancy.name
-            vacancySalary.text = SalaryFormatterVacancy(vacancy.salary, requireContext()).format()
+            vacancySalary.text = SalaryFormatter(vacancy.salary,requireContext()).format()
 
             employerName.text = vacancy.employer?.name
             regionCity.text = vacancy.address?.raw ?: vacancy.area?.name

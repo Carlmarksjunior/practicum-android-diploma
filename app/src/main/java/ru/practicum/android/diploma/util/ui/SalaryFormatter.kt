@@ -42,7 +42,14 @@ class SalaryFormatter(private val salary: Salary?, private val context: Context)
             "AZN" to R.string.azn,
             "UZS" to R.string.uzs,
             "GEL" to R.string.gel,
-            "KGT" to R.string.kgt
+            "KGT" to R.string.kgt,
+            "SEK" to R.string.sek,
+            "GBP" to R.string.gbp,
+            "NZD" to R.string.nzd,
+            "SGD" to R.string.sgd,
+            "AUD" to R.string.aud,
+            "HKD" to R.string.hkd
+
         )
     }
 }
