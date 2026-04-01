@@ -55,7 +55,7 @@ class FavoriteFragment : Fragment() {
 
         itemClickDebounce =
             debounce<Vacancy>(ITEM_CLICK_DEBOUNCE, viewLifecycleOwner.lifecycleScope, false) { vacancy ->
-                onItemClick()
+                onItemClick(vacancy)
             }
         adapter = VacanciesAdapter { vacancy -> itemClickDebounce(vacancy) }
         paginationScrollListener = FavoriteRecyclerScrollListener(layoutManager) {
@@ -74,8 +74,11 @@ class FavoriteFragment : Fragment() {
         _binding = null
     }
 
-    private fun onItemClick() {
-        findNavController().navigate(R.id.action_favoriteFragment_to_vacancyFragment)
+    private fun onItemClick(vacancy: Vacancy) {
+        val action = FavoriteFragmentDirections
+            .actionFavoriteFragmentToVacancyFragment(vacancy.id)
+        findNavController().navigate(action)
+        //findNavController().navigate(R.id.action_favoriteFragment_to_vacancyFragment)
     }
 
     private fun renderState(state: FavoritesState) {
