@@ -43,17 +43,11 @@ class VacancyFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        // можно потестить захардкодить разные id
         val id = args.vacancyId
         vacancyViewModel.getVacancyDetail(id)
-        vacancyViewModel.checkFavoriteState(id)
 
         vacancyViewModel.observeVacancyDetail().observe(viewLifecycleOwner) {
             render(it)
-        }
-
-        vacancyViewModel.observeFavoriteState().observe(viewLifecycleOwner) {
-            setIsFavorite(it)
         }
 
         binding.share.setOnClickListener {
@@ -82,6 +76,7 @@ class VacancyFragment : Fragment() {
 
     private fun showContent(content: VacancyState.Content) {
         val vacancy = content.content
+        val isFavorite = content.isFavorite
         contentVacancy = vacancy
         with(binding) {
             placeHolderForEmpty.visibility = View.GONE
@@ -92,6 +87,7 @@ class VacancyFragment : Fragment() {
             serverError.visibility = View.GONE
             noInternetPlaceHolder.visibility = View.GONE
             setupMainInfo(vacancy)
+            setIsFavorite(isFavorite)
             setupSkills(vacancy.skills)
             ContactsFormatter(binding, vacancyViewModel, requireContext()).setupContacts(vacancy)
         }
