@@ -68,7 +68,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
 
                             is Resource.Success<VacancyListInfo> -> {
                                 val data = vacancyList.data!!
-                                onNextPage(data.pages, data.vacancies)
+                                onNextPage(data.pages, data.vacancies, data.page + 1)
                                 searchState.value = SearchState.Result(vacancies, data.found)
                             }
                         }
