@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.feature.filter.presentation
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,12 +27,10 @@ class FilterRegionViewmodel(private val filterRegionsInteractor: FilterRegionsIn
 
     fun onSearchTextChanged(text: String) {
         searchDebounce.invoke(text)
-        Log.d("FilterRegionViewmodel", "onSearchTextChanged: $text")
     }
 
     fun getRegions(regionName: String? = null) {
         viewModelScope.launch(Dispatchers.IO) {
-//            filterRegionsInteractor.saveCountry(AreaCountry(5, "Украина"))
             regionLiveData.postValue(FilterRegionState.Loading)
             filterRegionsInteractor.getAllRegions().collect { resource ->
                 when (resource) {

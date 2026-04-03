@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.feature.filter.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,7 +52,6 @@ class FilterRegionFragment : Fragment() {
     }
 
     private fun showContent(state: FilterRegionState.Content) {
-        Log.d("FilterRegionFragment", "Regions: ${state.regions}")
         if (state.regions.isNotEmpty()) {
             binding.searchResultsRecyclerView.visibility = View.VISIBLE
             binding.placeholderImage.visibility = View.GONE

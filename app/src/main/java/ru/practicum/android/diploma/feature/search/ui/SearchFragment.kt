@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -44,10 +43,6 @@ class SearchFragment : Fragment() {
         binding.searchResultsRecyclerView.adapter = adapter
         observeEvents()
         observeState(adapter)
-
-        binding.placeholderImage.setOnClickListener {
-            findNavController().navigate(R.id.action_searchFragment_to_filterSettingsFragment)
-        }
     }
 
     override fun onDestroyView() {
