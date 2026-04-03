@@ -58,7 +58,6 @@ class FilterIndustryFragment : Fragment() {
         if (state.errorMessage == null) {
             val hasSelectedVisible = state.visibleIndustries.any { it.isSelected }
             binding.selectButton.isVisible = hasSelectedVisible
-
             binding.placeholderImage.isVisible = false
             binding.placeholderText.isVisible = false
             binding.industryRecyclerView.isVisible = true
@@ -80,11 +79,9 @@ class FilterIndustryFragment : Fragment() {
             binding.searchInput.text?.clear()
         }
         binding.backButton.setOnClickListener {
-            //industryViewModel.saveSelectIndustry()
             findNavController().popBackStack()
         }
         binding.selectButton.setOnClickListener {
-            //industryViewModel.saveSelectIndustry()
             findNavController().popBackStack()
         }
     }
