@@ -14,7 +14,7 @@ import ru.practicum.android.diploma.feature.vacancy.domain.model.Vacancy
 import ru.practicum.android.diploma.feature.vacancy.presentation.VacancyState
 import ru.practicum.android.diploma.feature.vacancy.presentation.VacancyViewModel
 import ru.practicum.android.diploma.util.ui.DescriptionFormatterVacancy
-import ru.practicum.android.diploma.util.ui.SalaryFormatterVacancy
+import ru.practicum.android.diploma.util.ui.SalaryFormatter
 
 class VacancyFragment : Fragment() {
 
@@ -43,9 +43,14 @@ class VacancyFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        // можно потестить захардкодить разные id
         val id = args.vacancyId
-        vacancyViewModel.getVacancyDetail(id)
+        val dbSource = args.dbSource
+        if (dbSource) {
+            vacancyViewModel.getVacancyFromDatabase(id)
+        } else {
+            vacancyViewModel.getVacancyDetail(id)
+        }
+
         vacancyViewModel.observeVacancyDetail().observe(viewLifecycleOwner) {
             render(it)
         }
@@ -54,6 +59,10 @@ class VacancyFragment : Fragment() {
             contentVacancy?.url?.let { url ->
                 vacancyViewModel.sendVacancyViaMessenger(url)
             }
+        }
+
+        binding.addToFavorites.setOnClickListener {
+            vacancyViewModel.handleFavorites(contentVacancy!!)
         }
     }
 
@@ -72,6 +81,7 @@ class VacancyFragment : Fragment() {
 
     private fun showContent(content: VacancyState.Content) {
         val vacancy = content.content
+        val isFavorite = content.isFavorite
         contentVacancy = vacancy
         with(binding) {
             placeHolderForEmpty.visibility = View.GONE
@@ -81,8 +91,8 @@ class VacancyFragment : Fragment() {
             vacancyLayout.visibility = View.VISIBLE
             serverError.visibility = View.GONE
             noInternetPlaceHolder.visibility = View.GONE
-
             setupMainInfo(vacancy)
+            setIsFavorite(isFavorite)
             setupSkills(vacancy.skills)
             ContactsFormatter(binding, vacancyViewModel, requireContext()).setupContacts(vacancy)
         }
@@ -91,10 +101,10 @@ class VacancyFragment : Fragment() {
     private fun setupMainInfo(vacancy: Vacancy) {
         with(binding) {
             vacancyName.text = vacancy.name
-            vacancySalary.text = SalaryFormatterVacancy(vacancy.salary, requireContext()).format()
+            vacancySalary.text = SalaryFormatter(vacancy.salary, requireContext()).format()
 
             employerName.text = vacancy.employer?.name
-            regionCity.text = vacancy.address?.city ?: vacancy.area?.name
+            regionCity.text = vacancy.address?.raw ?: vacancy.area?.name
 
             Glide.with(requireContext())
                 .load(vacancy.employer?.logo)
@@ -138,6 +148,9 @@ class VacancyFragment : Fragment() {
                     placeHolderForEmpty.visibility = View.VISIBLE
                 }
 
+                VacancyViewModel.DATABASE_ERROR -> {
+                    placeHolderForEmpty.visibility = View.VISIBLE
+                }
                 else -> {
                     serverError.visibility = View.VISIBLE
                 }
@@ -154,6 +167,14 @@ class VacancyFragment : Fragment() {
             vacancyLayout.visibility = View.GONE
             share.visibility = View.GONE
             addToFavorites.visibility = View.GONE
+        }
+    }
+
+    private fun setIsFavorite(isFavorite: Boolean) {
+        if (isFavorite) {
+            binding.addToFavorites.setImageResource(R.drawable.ic_favorites_on)
+        } else {
+            binding.addToFavorites.setImageResource(R.drawable.ic_favorites_off)
         }
     }
 }

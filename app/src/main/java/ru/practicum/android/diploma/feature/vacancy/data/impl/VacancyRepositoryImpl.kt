@@ -45,6 +45,6 @@ class VacancyRepositoryImpl(
         private const val NO_INTERNET_CODE = -1
         private const val SUCCESS_CODE = 200
 
-        private const val PAGE_NOT_FOUND = 400
+        private const val PAGE_NOT_FOUND = 404
     }
 }
