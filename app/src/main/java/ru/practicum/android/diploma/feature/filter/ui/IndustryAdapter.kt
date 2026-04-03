@@ -31,7 +31,6 @@ class IndustryAdapter(
         industries = newIndustry
         notifyDataSetChanged()
     }
-
 }
 
 class IndustryViewHolder(
