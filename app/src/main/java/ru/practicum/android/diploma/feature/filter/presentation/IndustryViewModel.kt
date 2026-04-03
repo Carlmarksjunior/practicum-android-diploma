@@ -38,7 +38,7 @@ class IndustryViewModel(
     }
 
     fun saveSelectIndustry() {
-
+        // TODO: save to sharepref 
     }
 
     fun selectIndustry(id: String, text: String) {
