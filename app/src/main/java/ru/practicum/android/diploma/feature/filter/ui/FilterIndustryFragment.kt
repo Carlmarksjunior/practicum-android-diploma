@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterIndustryBinding
 import ru.practicum.android.diploma.feature.filter.presentation.IndustryViewModel
+import ru.practicum.android.diploma.feature.filter.presentation.state.IndustryScreenState
 import kotlin.getValue
 
 class FilterIndustryFragment : Fragment() {
@@ -47,10 +49,24 @@ class FilterIndustryFragment : Fragment() {
 
         adapter = IndustryAdapter(listOf(),
             onSelect = { id ->
-                id?.let { industryViewModel.selectIndustry(it, binding.searchInput.text.toString()) }
+                id?.let { industryViewModel.selectIndustry(it) }
             }
         )
         binding.industryRecyclerView.adapter = adapter
+    }
+
+    private fun renderState(state: IndustryScreenState) {
+        if (state.errorMessage == null) {
+            val hasSelectedVisible = state.visibleIndustries.any { it.isSelected }
+            binding.selectButton.isVisible = hasSelectedVisible
+
+            binding.placeholderImage.isVisible = false
+            binding.placeholderText.isVisible = false
+            binding.industryRecyclerView.isVisible = true
+            adapter.updateIndustries(state.visibleIndustries)
+        } else {
+            showError(state.errorMessage)
+        }
     }
 
     private fun setupListeners() {
@@ -86,27 +102,11 @@ class FilterIndustryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecycler()
-
-        industryViewModel.init()
-
-        setupListeners()
-
         industryViewModel.industryScreenState.observe(viewLifecycleOwner) { state ->
-            if (state.errorMessage != null) {
-                showError(state.errorMessage)
-            } else {
-                binding.placeholderImage.isVisible = false
-                binding.placeholderText.isVisible = false
-                binding.industryRecyclerView.isVisible = state.industries.isNotEmpty()
-                adapter.updateIndustries(state.industries)
-            }
-            if (state.selectedButtonView) {
-                binding.selectButton.isVisible = state.industries.isNotEmpty()
-            } else {
-                binding.selectButton.isVisible = false
-            }
+            renderState(state)
         }
-
+        industryViewModel.init()
+        setupListeners()
     }
 
     override fun onDestroyView() {

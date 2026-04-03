@@ -18,21 +18,24 @@ class IndustryViewModel(
     private val _industryScreenState = MutableLiveData<IndustryScreenState>()
     val industryScreenState: LiveData<IndustryScreenState> = _industryScreenState
 
-    private var searchIndustryResult: List<IndustryUiModel> = arrayListOf()
-    private var isSelected: String = ""
+    private fun updateState(newState: IndustryScreenState) {
+        _industryScreenState.value = newState
+    }
 
     fun init() {
         viewModelScope.launch {
             industryInteractor.searchIndustry().collect { result ->
-                val uiModels = result.data?.map(Industry::toUiModel) ?: emptyList()
-                searchIndustryResult = uiModels
-                _industryScreenState.postValue(
-                    IndustryScreenState(
-                        errorMessage = result.message,
-                        industries = uiModels,
-                        selectedButtonView = false
-                    )
+                val uiModels = result.data?.map(Industry::toUiModel).orEmpty()
+
+                val currentState = _industryScreenState.value ?: IndustryScreenState()
+                val newState = currentState.copy(
+                    allIndustries = uiModels,
+                    visibleIndustries = uiModels,
+                    isLoading = false,
+                    errorMessage = result.message
                 )
+
+                updateState(newState)
             }
         }
     }
@@ -41,46 +44,39 @@ class IndustryViewModel(
         // TODO: save to sharepref 
     }
 
-    fun selectIndustry(id: String, text: String) {
-        isSelected = id
-        if (text.isNotEmpty()) {
-            onSearchTextChanged(text)
-            return
-        }
-        val searchIndustryResult = searchIndustryResult.map { industry ->
-            industry.copy(isSelected = industry.id == id)
-        }
-        _industryScreenState.postValue(
-            IndustryScreenState(
-                errorMessage = null,
-                industries = searchIndustryResult,
-                selectedButtonView = true
-            )
-        )
-    }
+    fun selectIndustry(id: String) {
+        val currentState = _industryScreenState.value ?: IndustryScreenState()
 
-    private fun showSelectedButton(industries: List<IndustryUiModel>): Boolean {
-        return industries.any { it.isSelected }
+        val updatedIndustries = currentState.visibleIndustries.map {
+            it.copy(isSelected = it.id == id)
+        }
+        val newState = currentState.copy(
+            visibleIndustries = updatedIndustries,
+            selectedIndustryId = id
+        )
+
+        updateState(newState)
     }
 
     fun onSearchTextChanged(text: String) {
-        if (text.isEmpty()) {
-            selectIndustry(isSelected, text)
-            return
+        val currentState = _industryScreenState.value ?: IndustryScreenState()
+
+        val updatedIndustries = if (text.isEmpty()) {
+            currentState.allIndustries.map {
+                it.copy(isSelected = it.id == currentState.selectedIndustryId)
+            }
+        } else {
+            currentState.allIndustries
+                .map { it.copy(isSelected = it.id == currentState.selectedIndustryId) }
+                .filter { it.name?.contains(text, ignoreCase = true) == true }
         }
-        var filtered = searchIndustryResult.filter { industry ->
-            industry.name?.contains(text, ignoreCase = true) ?: false
-        }
-        filtered = filtered.map { industry ->
-            industry.copy(isSelected = industry.id == isSelected)
-        }
-        _industryScreenState.postValue(
-            IndustryScreenState(
-                errorMessage = null,
-                industries = filtered,
-                selectedButtonView = showSelectedButton(filtered)
-            )
+
+        val newState = currentState.copy(
+            searchQuery = text,
+            visibleIndustries = updatedIndustries
         )
+
+        updateState(newState)
     }
 
 }
