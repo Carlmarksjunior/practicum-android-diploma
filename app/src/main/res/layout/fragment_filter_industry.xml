@@ -76,7 +76,7 @@
                 android:autofillHints="none"
                 android:background="@drawable/rounded_edittext"
                 android:fontFamily="@font/ys_display_regular"
-                android:hint="@string/search_hint"
+                android:hint="@string/enter_industry"
                 android:textCursorDrawable="@drawable/custom_cursor"
                 android:inputType="text"
                 android:maxLines="1"
@@ -153,16 +153,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchContainer" />
 
-    <ProgressBar
-        android:id="@+id/mainSearchProgressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="?attr/colorPrimary"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/select_button"
+        android:layout_width="0dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_button_select"
+        android:fontFamily="@font/ys_display_medium"
+        android:stateListAnimator="@null"
+        android:text="@string/button_select"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchContainer" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

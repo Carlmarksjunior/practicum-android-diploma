@@ -41,7 +41,7 @@ val dataModule = module {
     single<IndustryApiService> {
         Retrofit.Builder()
             .baseUrl(VACANCY_BASE_URL)
-            .client(OkHttpClient.Builder().addInterceptor(AuthInterceptor(BuildConfig.API_ACCESS_TOKEN)).build())
+            .client(OkHttpClient.Builder().addInterceptor(AuthInterceptor("BuildConfig.API_ACCESS_TOKEN")).build())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(IndustryApiService::class.java)

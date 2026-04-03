@@ -47,7 +47,7 @@ class FilterIndustryFragment : Fragment() {
 
         adapter = IndustryAdapter(listOf(),
             onSelect = { id ->
-                id?.let { industryViewModel.selectIndustry(it) }
+                id?.let { industryViewModel.selectIndustry(it, binding.searchInput.text.toString()) }
             }
         )
         binding.industryRecyclerView.adapter = adapter
@@ -65,6 +65,11 @@ class FilterIndustryFragment : Fragment() {
             binding.searchInput.text?.clear()
         }
         binding.backButton.setOnClickListener {
+            industryViewModel.saveSelectIndustry()
+            findNavController().popBackStack()
+        }
+        binding.selectButton.setOnClickListener {
+            industryViewModel.saveSelectIndustry()
             findNavController().popBackStack()
         }
     }
@@ -94,6 +99,11 @@ class FilterIndustryFragment : Fragment() {
                 binding.placeholderText.isVisible = false
                 binding.industryRecyclerView.isVisible = state.industries.isNotEmpty()
                 adapter.updateIndustries(state.industries)
+            }
+            if (state.selectedButtonView) {
+                binding.selectButton.isVisible = state.industries.isNotEmpty()
+            } else {
+                binding.selectButton.isVisible = false
             }
         }
 

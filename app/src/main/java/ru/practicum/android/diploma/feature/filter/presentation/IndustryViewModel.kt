@@ -11,7 +11,9 @@ import ru.practicum.android.diploma.feature.filter.ui.IndustryUiModel
 import ru.practicum.android.diploma.feature.filter.ui.toUiModel
 import ru.practicum.android.diploma.feature.vacancy.domain.model.Industry
 
-class IndustryViewModel(private val industryInteractor: IndustryInteractor) : ViewModel() {
+class IndustryViewModel(
+    private val industryInteractor: IndustryInteractor
+) : ViewModel() {
 
     private val _industryScreenState = MutableLiveData<IndustryScreenState>()
     val industryScreenState: LiveData<IndustryScreenState> = _industryScreenState
@@ -27,47 +29,52 @@ class IndustryViewModel(private val industryInteractor: IndustryInteractor) : Vi
                 _industryScreenState.postValue(
                     IndustryScreenState(
                         errorMessage = result.message,
-                        industries = uiModels
+                        industries = uiModels,
+                        selectedButtonView = false
                     )
                 )
             }
         }
     }
 
-    fun selectIndustry(id: String) {
+    fun saveSelectIndustry() {
+
+    }
+
+    fun selectIndustry(id: String, text: String) {
         isSelected = id
+        if (text.isNotEmpty()) {
+            onSearchTextChanged(text)
+            return
+        }
         val searchIndustryResult = searchIndustryResult.map { industry ->
             industry.copy(isSelected = industry.id == id)
         }
         _industryScreenState.postValue(
             IndustryScreenState(
                 errorMessage = null,
-                industries = searchIndustryResult
+                industries = searchIndustryResult,
+                selectedButtonView = true
             )
         )
     }
 
     fun onSearchTextChanged(text: String) {
         if (text.isEmpty()) {
-            _industryScreenState.postValue(
-                IndustryScreenState(
-                    errorMessage = null,
-                    industries = searchIndustryResult
-                )
-            )
+            selectIndustry(isSelected, text)
+            return
         }
-
         var filtered = searchIndustryResult.filter { industry ->
             industry.name?.contains(text, ignoreCase = true) ?: false
         }
         filtered = filtered.map { industry ->
             industry.copy(isSelected = industry.id == isSelected)
         }
-
         _industryScreenState.postValue(
             IndustryScreenState(
                 errorMessage = null,
-                industries = filtered
+                industries = filtered,
+                selectedButtonView = true
             )
         )
     }
