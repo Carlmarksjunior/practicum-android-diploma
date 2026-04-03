@@ -149,5 +149,10 @@ class SearchFragment : Fragment() {
                 }
             }
         })
+        binding.filterButton.setOnClickListener {
+            requireActivity().getNavController(
+                R.id.containerView
+            ).navigate(R.id.action_searchFragment_to_filterSettingsFragment)
+        }
     }
 }

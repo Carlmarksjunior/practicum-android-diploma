@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.feature.search.data.network
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.practicum.android.diploma.feature.filter.data.dto.FilterCountryResponse
 import ru.practicum.android.diploma.feature.search.data.NetworkClient
 import ru.practicum.android.diploma.feature.search.data.dto.RequestDto
 import ru.practicum.android.diploma.feature.search.data.dto.Response
@@ -19,7 +20,7 @@ class RetrofitNetworkClient(
             return Response().apply { code = NO_INTERNET_CODE }
         }
 
-        return if (dto is RequestDto.WithParams || dto is RequestDto.WithPathId) {
+        return if (dto is RequestDto.WithParams || dto is RequestDto.WithPathId || dto is RequestDto.Area) {
             withContext(Dispatchers.IO) {
                 executeRequest(dto)
             }
@@ -33,6 +34,7 @@ class RetrofitNetworkClient(
             val response = when (dto) {
                 is RequestDto.FilteredVacancies -> vacancyApiService.searchVacancies(dto.params)
                 is RequestDto.Vacancy -> vacancyApiService.getVacancyDetail(dto.id)
+                is RequestDto.Area -> FilterCountryResponse(vacancyApiService.getFilterAreas())
             }
             response.apply { code = SUCCESS_CODE }
         } catch (e: retrofit2.HttpException) {

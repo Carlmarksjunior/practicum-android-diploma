@@ -32,6 +32,9 @@
 
     <!-- Fragment "Выбор страны" -->
     <string name="country_selection">Выбор страны</string>
+    <string name="back_btn">Кнопка назад</string>
+    <string name="choose_country_btn">Кнопка выбора страны</string>
+    <string name="other_regions">Другие регионы</string>
 
     <!-- Fragment "Выбор региона" -->
     <string name="select_region">Выбор региона</string>
