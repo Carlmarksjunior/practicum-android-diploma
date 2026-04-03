@@ -32,7 +32,6 @@ class FilterRegionViewmodel(private val filterRegionsInteractor: FilterRegionsIn
     }
 
     fun getRegions(regionName: String? = null) {
-
         viewModelScope.launch(Dispatchers.IO) {
 //            filterRegionsInteractor.saveCountry(AreaCountry(5, "Украина"))
             regionLiveData.postValue(FilterRegionState.Loading)

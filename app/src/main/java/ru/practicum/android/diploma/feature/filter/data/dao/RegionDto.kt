@@ -3,7 +3,7 @@ package ru.practicum.android.diploma.feature.filter.data.dao
 import com.google.gson.annotations.SerializedName
 import ru.practicum.android.diploma.feature.search.data.dto.Response
 
-class RegionDto(): Response() {
+class RegionDto : Response() {
     @SerializedName("id")
     val id: String? = null
     @SerializedName("parentId")

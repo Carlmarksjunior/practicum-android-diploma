@@ -6,5 +6,3 @@ import ru.practicum.android.diploma.feature.search.data.dto.Response
 interface FilterRegionNetworkClient {
     suspend fun doRequest(dto: RegionRequestDto): Response
 }
-
-

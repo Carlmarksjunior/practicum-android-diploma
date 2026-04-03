@@ -7,12 +7,13 @@ import ru.practicum.android.diploma.feature.filter.data.FilterRegionNetworkClien
 import ru.practicum.android.diploma.feature.filter.data.dao.RegionRequestDto
 import ru.practicum.android.diploma.feature.filter.data.dao.RegionResponse
 import ru.practicum.android.diploma.feature.search.data.dto.Response
+import ru.practicum.android.diploma.feature.search.data.network.VacancyApiService
 import ru.practicum.android.diploma.util.ConnectionChecker
 import java.io.IOException
 
 class RetrofitFilterRegionNetworkClient(
     private val connectionChecker: ConnectionChecker,
-    private val filterApiService: FilterApiService
+    private val vacancyApiService: VacancyApiService
 ) : FilterRegionNetworkClient {
 
     override suspend fun doRequest(dto: RegionRequestDto): Response {
@@ -32,7 +33,7 @@ class RetrofitFilterRegionNetworkClient(
     private suspend fun executeRequest(dto: RegionRequestDto): Response {
         return try {
             val response = when (dto) {
-                is RegionRequestDto.AllRegions -> filterApiService.getRegions()
+                is RegionRequestDto.AllRegions -> vacancyApiService.getRegions()
             }
             RegionResponse().apply {
                 regions = response

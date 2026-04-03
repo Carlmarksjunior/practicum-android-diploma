@@ -97,9 +97,9 @@ class FilterRegionFragment : Fragment() {
     private fun setupListeners() {
         binding.searchInput.doOnTextChanged { text, _, _, _ ->
             filterViewModel.onSearchTextChanged(text.toString())
-            if (text!!.isEmpty()){
+            if (text!!.isEmpty()) {
                 binding.searchClearIcon.setImageResource(R.drawable.ic_search)
-            }else{
+            } else {
                 binding.searchClearIcon.setImageResource(R.drawable.ic_close)
             }
         }

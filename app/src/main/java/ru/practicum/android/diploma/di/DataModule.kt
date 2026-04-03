@@ -11,7 +11,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.db.data.AppDatabase
 import ru.practicum.android.diploma.feature.filter.data.FilterRegionNetworkClient
 import ru.practicum.android.diploma.feature.filter.data.StorageClient
-import ru.practicum.android.diploma.feature.filter.data.network.FilterApiService
 import ru.practicum.android.diploma.feature.filter.data.network.RetrofitFilterRegionNetworkClient
 import ru.practicum.android.diploma.feature.filter.data.storage.SharedPrefsStorageClient
 import ru.practicum.android.diploma.feature.search.data.NetworkClient
@@ -38,15 +37,6 @@ val dataModule = module {
             .create(VacancyApiService::class.java)
     }
 
-    single<FilterApiService> {
-        Retrofit.Builder()
-            .baseUrl(VACANCY_BASE_URL)
-            .client(OkHttpClient.Builder().addInterceptor(AuthInterceptor(api)).build())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(FilterApiService::class.java)
-    }
-
     single {
         androidContext().getSharedPreferences("filter_prefs", Context.MODE_PRIVATE)
     }
@@ -56,7 +46,6 @@ val dataModule = module {
     single<StorageClient<String>> {
         SharedPrefsStorageClient(get())
     }
-
 
     single<NetworkClient> {
         RetrofitNetworkClient(get(), get())
