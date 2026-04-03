@@ -38,7 +38,12 @@ class SearchRepositoryImpl(
             SUCCESS_CODE -> {
                 val vacancySearchResponse = response as VacancySearchResponse
                 val vacancies = vacancySearchResponse.vacancies.map { VacancyDetailMapper().map(it) }
-                val result = VacancyListInfo(vacancySearchResponse.found, vacancySearchResponse.pages, vacancies)
+                val result = VacancyListInfo(
+                    vacancySearchResponse.found,
+                    vacancySearchResponse.pages,
+                    vacancySearchResponse.page,
+                    vacancies
+                )
                 emit(Resource.Success(result))
             }
 
