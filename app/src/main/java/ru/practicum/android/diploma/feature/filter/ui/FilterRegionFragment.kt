@@ -37,10 +37,14 @@ class FilterRegionFragment : Fragment() {
         binding.back.setOnClickListener {
             findNavController().popBackStack()
         }
+
         filterViewModel.observeRegionLiveData().observe(viewLifecycleOwner) {
             render(it)
         }
 
+        filterViewModel.observeSaveLiveData().observe(viewLifecycleOwner) {
+            findNavController().popBackStack()
+        }
     }
 
     private fun render(state: FilterRegionState) {

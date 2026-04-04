@@ -10,23 +10,18 @@ import ru.practicum.android.diploma.feature.filter.domain.api.regions.FilterRegi
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaRegion
 import ru.practicum.android.diploma.feature.filter.presentation.states.FilterRegionState
 import ru.practicum.android.diploma.util.Resource
-import ru.practicum.android.diploma.util.debounce
+import ru.practicum.android.diploma.util.SingleLiveEvent
 
 class FilterRegionViewmodel(private val filterRegionsInteractor: FilterRegionsInteractor) : ViewModel() {
 
     private val regionLiveData = MutableLiveData<FilterRegionState>()
     fun observeRegionLiveData(): LiveData<FilterRegionState> = regionLiveData
 
-    private val searchDebounce = debounce<String>(DEBOUNCE_DELAY, viewModelScope, true) { query ->
-        if (query.isNotEmpty() && query.isNotBlank()) {
-            getRegions(query)
-        } else {
-            getRegions()
-        }
-    }
+    private val saveLiveData = SingleLiveEvent<Boolean>()
+    fun observeSaveLiveData(): LiveData<Boolean> = saveLiveData
 
     fun onSearchTextChanged(text: String) {
-        searchDebounce.invoke(text)
+        getRegions(text)
     }
 
     fun getRegions(regionName: String? = null) {
@@ -67,7 +62,9 @@ class FilterRegionViewmodel(private val filterRegionsInteractor: FilterRegionsIn
     fun saveRegion(region: AreaRegion) {
         viewModelScope.launch(Dispatchers.IO) {
             filterRegionsInteractor.saveRegion(region)
+            saveLiveData.postValue(true)
         }
+
     }
 
     companion object {
