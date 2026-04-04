@@ -14,6 +14,7 @@ class FilterRegionInteractorImpl(
     private val filtersSavingRepository: FiltersSavingRepository,
     private val filtersGettingRepository: FiltersGettingRepository
 ) : FilterRegionsInteractor {
+
     override fun getAllRegions(): Flow<Resource<List<AreaRegion>>> {
         return filterRegionsRepository.getAllRegions()
     }
@@ -24,9 +25,5 @@ class FilterRegionInteractorImpl(
 
     override suspend fun getCountry(): AreaCountry? {
         return filtersGettingRepository.getCountry()
-    }
-
-    override suspend fun saveCountry(country: AreaCountry) {
-        filtersSavingRepository.setCountry(country)
     }
 }

@@ -10,6 +10,4 @@ interface FilterRegionsInteractor {
     suspend fun saveRegion(region: AreaRegion)
 
     suspend fun getCountry(): AreaCountry?
-
-    suspend fun saveCountry(country: AreaCountry)
 }
