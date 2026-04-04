@@ -35,7 +35,14 @@
         android:id="@+id/vacancyFragment"
         android:name="ru.practicum.android.diploma.feature.vacancy.ui.VacancyFragment"
         android:label="fragment_vacancy"
-        tools:layout="@layout/fragment_vacancy" />
+        tools:layout="@layout/fragment_vacancy" >
+        <argument
+            android:name="vacancyId"
+            app:argType="string" />
+        <argument
+            android:name="dbSource"
+            app:argType="boolean" />
+    </fragment>
     <fragment
         android:id="@+id/filterSettingsFragment"
         android:name="ru.practicum.android.diploma.feature.filter.ui.FilterSettingsFragment"

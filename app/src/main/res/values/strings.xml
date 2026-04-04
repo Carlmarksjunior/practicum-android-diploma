@@ -11,10 +11,11 @@
     <string name="search_hint">Введите запрос</string>
     <string name="no_internet">Нет интернета</string>
     <string name="server_error">Ошибка сервера</string>
-    <string name="failed_to_load_vacancies">Не удалось получить список вакансий</string>
+    <string name="failed_to_load_vacancies">Не удалось получить\n список вакансий</string>
     <string name="no_vacancies_found">Таких вакансий нет</string>
     <string name="vacancies_found">Найдено</string>
     <string name="vacancies">вакансий</string>
+    <string name="vacancies_n_found">Найдено %1$d вакансий</string>
 
     <!-- Fragment "Настройки фильтрации" -->
     <string name="filter_settings">Настройки фильтрации</string>
@@ -36,7 +37,7 @@
     <string name="select_region">Выбор региона</string>
     <string name="enter_region">Введите регион</string>
     <string name="region_not_found">Такого региона нет</string>
-    <string name="failed_to_load_regions">Не удалось получить список</string>
+    <string name="failed_to_load_regions">Не удалось получить\n список</string>
 
     <!-- Fragment "Выбор отрасли" -->
     <string name="select_industry">Выбор отрасли</string>
@@ -55,10 +56,52 @@
     <string name="requirements">Требования</string>
     <string name="conditions">Условия</string>
     <string name="key_skills">Ключевые навыки</string>
-    <string name="vacancy_not_found">Вакансия не найдена или удалена</string>
+    <string name="vacancy_not_found">Вакансия не найдена или\nудалена</string>
+    <string name="contacts">Контакты</string>
+    <string name="salary_not_specified">Зарплата не указана</string>
 
     <!-- Fragment "Избранное" -->
     <string name="favorites">Избранное</string>
     <string name="empty_list">Список пуст</string>
+    <string name="unsuccessful_query">Не удалось получить список вакансий</string>
 
+    <!-- Fragment "Команда" -->
+    <string name="team">Команда</string>
+    <string name="team_title">Над приложением работали</string>
+    <string name="first_dev">Артем Кашицын</string>
+    <string name="second_dev">Сергей Обрывко</string>
+    <string name="third_dev">Павел Бородин</string>
+    <string name="forth_dev">Иван Юрченко</string>
+
+    <!-- Item вакансии -->
+    <string name="name_and_region">Название вакансии, Регион</string>
+    <string name="employer">Работодатель</string>
+    <string name="salary">от 000 до 000 Р</string>
+
+    <!-- Валюты -->
+    <string name="rub">₽</string>
+    <string name="byr">Br</string>
+    <string name="usd">$</string>
+    <string name="eur">€</string>
+    <string name="kzt">₸</string>
+    <string name="uah">₴</string>
+    <string name="azn">₼</string>
+    <string name="uzs">So’m</string>
+    <string name="gel">₾</string>
+    <string name="kgt">с</string>
+    <string name="sek">kr</string>
+    <string name="gbp">£</string>
+    <string name="nzd">NZ$</string>
+    <string name="sgd">S$</string>
+    <string name="aud">A$</string>
+    <string name="hkd">HK$</string>
+
+    <!-- Диапазон зарплаты -->
+    <string name="salary_null">Зарплата не указана</string>
+    <string name="salary_from">от %1$s</string>
+    <string name="salary_to">до %1$s</string>
+    <string name="salary_from_to">от %1$s до %2$s</string>
+
+    <!-- ViewHolder вакансии -->
+    <string name="employer_null">Работодатель не указан</string>
 </resources>

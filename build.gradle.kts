@@ -5,4 +5,5 @@ plugins {
     id("convention.detekt")
     id("androidx.navigation.safeargs.kotlin") version "2.9.7" apply false
     id("com.google.devtools.ksp") version "2.3.4" apply false
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.0"
 }
