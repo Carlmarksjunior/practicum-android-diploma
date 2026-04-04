@@ -11,12 +11,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.db.data.AppDatabase
 import ru.practicum.android.diploma.feature.filter.data.FilterRegionNetworkClient
-import ru.practicum.android.diploma.feature.filter.data.StorageClient
-import ru.practicum.android.diploma.feature.filter.data.network.RetrofitFilterRegionNetworkClient
-import ru.practicum.android.diploma.feature.filter.data.storage.SharedPrefsStorageClient
 import ru.practicum.android.diploma.feature.filter.data.IndustryNetworkClient
+import ru.practicum.android.diploma.feature.filter.data.StorageClient
 import ru.practicum.android.diploma.feature.filter.data.network.IndustryApiService
 import ru.practicum.android.diploma.feature.filter.data.network.IndustryNetworkClientImpl
+import ru.practicum.android.diploma.feature.filter.data.network.RetrofitFilterRegionNetworkClient
+import ru.practicum.android.diploma.feature.filter.data.storage.SharedPrefsStorageClient
 import ru.practicum.android.diploma.feature.search.data.NetworkClient
 import ru.practicum.android.diploma.feature.search.data.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.feature.search.data.network.VacancyApiService
