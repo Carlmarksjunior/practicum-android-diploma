@@ -46,7 +46,8 @@ class VacancyViewModel(
                 vacancy = favoriteInteractor.getFromFavoritesById(id)
             }
             vacancy?.apply {
-                _vacancyDetail.postValue(VacancyState.Content(this, true))
+                isFavorite = true
+                _vacancyDetail.postValue(VacancyState.Content(this, isFavorite))
             } ?: run {
                 _vacancyDetail.postValue(VacancyState.Error(DATABASE_ERROR))
             }
