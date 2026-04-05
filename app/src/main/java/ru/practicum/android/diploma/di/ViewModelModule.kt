@@ -12,21 +12,16 @@ val viewModelModule = module {
     viewModel {
         SearchViewModel(get())
     }
-
     viewModel {
         FavoriteFragmentViewModel(get(), get())
     }
-
     viewModel {
         VacancyViewModel(get(), get())
     }
-    
     viewModel {
         FilterRegionViewmodel(get())
     }
-
     viewModel {
         IndustryViewModel(get(), get())
     }
-
 }
