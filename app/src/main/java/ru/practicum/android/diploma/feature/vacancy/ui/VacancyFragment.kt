@@ -104,7 +104,7 @@ class VacancyFragment : Fragment() {
             vacancySalary.text = SalaryFormatter(vacancy.salary, requireContext()).format()
 
             employerName.text = vacancy.employer?.name
-            regionCity.text = vacancy.address?.raw ?: vacancy.area?.name
+            regionCity.text = vacancy.address?.city ?: vacancy.area?.name
 
             Glide.with(requireContext())
                 .load(vacancy.employer?.logo)
