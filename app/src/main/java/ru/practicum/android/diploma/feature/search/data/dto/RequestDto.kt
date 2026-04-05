@@ -16,5 +16,4 @@ sealed interface RequestDto {
     data class Vacancy(
         override val id: String
     ) : RequestDto, WithPathId
-
 }

@@ -18,6 +18,10 @@ val viewModelModule = module {
     viewModel {
         VacancyViewModel(get(), get())
     }
+    
+    viewModel {
+        FilterRegionViewmodel(get())
+    }
 
     viewModel {
         IndustryViewModel(get(), get())
