@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -86,6 +87,15 @@ class FilterIndustryFragment : Fragment() {
             industryViewModel.saveIndustry()
             findNavController().popBackStack()
         }
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                industryViewModel.saveIndustry()
+                isEnabled = false
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner, callback
+        )
     }
 
     override fun onCreateView(
