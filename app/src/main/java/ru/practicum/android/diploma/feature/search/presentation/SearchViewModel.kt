@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.feature.filter.domain.model.Filters
+import ru.practicum.android.diploma.feature.filter.domain.model.SearchFilters
 import ru.practicum.android.diploma.feature.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.feature.search.domain.model.VacancyListInfo
 import ru.practicum.android.diploma.feature.search.presentation.model.PagingErrorEvent
@@ -21,6 +23,9 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     fun observeSearchState(): LiveData<SearchState> = searchState
     private val errorPagingEvent = SingleLiveEvent<PagingErrorEvent>()
     fun observeErrorPagingEvent(): LiveData<PagingErrorEvent> = errorPagingEvent
+
+    private val allFiltersLiveData = SingleLiveEvent<Boolean>()
+    fun observeAllFiltersLiveData(): LiveData<Boolean> = allFiltersLiveData
 
     private var searchText = ""
     private var listVisible = false
@@ -134,6 +139,17 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         itemPositionInvokingSearch = -1
         maxPage = -1
         lastRequestedPage = -1
+    }
+
+    fun getAllFilters() {
+        viewModelScope.launch {
+            val filters = searchInteractor.getAllFilters()
+            val hasFilters = filters?.let {
+                it.salary != null || it.areaId != null || it.industryId != null || it.isOnlyWithSalary == true
+            } ?: false
+
+            allFiltersLiveData.postValue(hasFilters)
+        }
     }
 
     companion object {

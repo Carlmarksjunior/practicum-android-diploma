@@ -26,8 +26,8 @@ class SearchRepositoryImpl(
         filters["text"] = expression
         filters["page"] = pager.toString()
         filter?.let {
-            it.areaId?.let { id -> filters["area"] = id }
-            it.industryId?.let { id -> filters["industry"] = id }
+            it.areaId?.let { id -> filters["area"] = id.toString() }
+            it.industryId?.let { id -> filters["industry"] = id.toString() }
             it.salary?.let { s -> filters["salary"] = s.toString() }
             if (it.isOnlyWithSalary) filters["only_with_salary"] = "true"
         }

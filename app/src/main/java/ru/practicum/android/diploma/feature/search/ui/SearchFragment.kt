@@ -51,6 +51,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun observeEvents() {
+        searchViewModel.observeAllFiltersLiveData().observe(viewLifecycleOwner) {
+            showFilterButton(it)
+        }
         searchViewModel.observeErrorPagingEvent().observe(viewLifecycleOwner) { error ->
             binding.paginationProgressBarLayout.isVisible = false
             when (error) {
@@ -132,6 +135,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        searchViewModel.getAllFilters()
         binding.searchInput.doOnTextChanged { text, _, _, _ ->
             searchViewModel.onSearchTextChanged(text.toString())
         }
@@ -153,6 +157,24 @@ class SearchFragment : Fragment() {
             requireActivity().getNavController(
                 R.id.containerView
             ).navigate(R.id.action_searchFragment_to_filterSettingsFragment)
+        }
+    }
+
+    private fun showFilterButton(buttonIsActive: Boolean) {
+        if (buttonIsActive) {
+            with(binding.filterButton) {
+                setImageResource(R.drawable.ic_filter_on)
+                imageTintList = null
+            }
+        } else {
+            with(binding.filterButton) {
+                setImageResource(R.drawable.ic_filter_off)
+                val typedValue = android.util.TypedValue()
+                val theme = requireContext().theme
+                theme.resolveAttribute(R.attr.colorOnBackgroundPrimary, typedValue, true)
+
+                imageTintList = android.content.res.ColorStateList.valueOf(typedValue.data)
+            }
         }
     }
 }
