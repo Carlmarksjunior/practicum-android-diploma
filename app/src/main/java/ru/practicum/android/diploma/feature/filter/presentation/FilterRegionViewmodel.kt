@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.feature.filter.domain.api.regions.FilterRegionsInteractor
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaRegion
-import ru.practicum.android.diploma.feature.filter.presentation.states.FilterRegionState
+import ru.practicum.android.diploma.feature.filter.presentation.state.FilterRegionState
 import ru.practicum.android.diploma.util.Resource
 import ru.practicum.android.diploma.util.SingleLiveEvent
 

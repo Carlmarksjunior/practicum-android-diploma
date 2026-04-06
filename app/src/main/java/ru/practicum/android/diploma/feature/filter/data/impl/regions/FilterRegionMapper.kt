@@ -12,7 +12,8 @@ class FilterRegionMapper {
                 result.add(AreaRegion(
                     id = area.id?.toInt() ?: 0,
                     name = area.name ?: "",
-                    parentId = dto.id?.toInt() ?: 0
+                    parentId = dto.id?.toInt() ?: 0,
+                    parentName = dto.name ?: ""
                 ))
                 extractAreas(area)
             }

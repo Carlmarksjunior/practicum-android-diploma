@@ -12,7 +12,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterRegionBinding
 import ru.practicum.android.diploma.feature.filter.presentation.FilterRegionViewmodel
-import ru.practicum.android.diploma.feature.filter.presentation.states.FilterRegionState
+import ru.practicum.android.diploma.feature.filter.presentation.state.FilterRegionState
 
 class FilterRegionFragment : Fragment() {
 

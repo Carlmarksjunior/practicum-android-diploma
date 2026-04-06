@@ -79,4 +79,34 @@
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
     </style>
+    <style name="RemovableFilterHintTextAppearance">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="lineHeight">19dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+    <style name="RemovableFilterTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_marginEnd">52dp</item>
+        <item name="android:paddingVertical">@dimen/padding_12</item>
+        <item name="android:paddingStart">@dimen/padding_16</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textColorHint">?attr/colorOnBackgroundPrimary</item>
+        <item name="boxBackgroundMode">none</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="hintTextAppearance">@style/RemovableFilterHintTextAppearance</item>
+    </style>
+    <style name="RemovableFilterTextInputStyle">
+        <item name="android:paddingVertical">0dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textColor">?attr/colorOnBackgroundPrimary</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:clickable">true</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:focusable">false</item>
+    </style>
 </resources>

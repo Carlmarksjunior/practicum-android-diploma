@@ -3,8 +3,8 @@ package ru.practicum.android.diploma.feature.filter.domain.api
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaCountry
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaRegion
 
-interface AreaInteractor {
-    fun getAreaCountry(): AreaCountry
-    fun getAreaRegion(): AreaRegion
+interface LocationInteractor {
+    fun getAreaCountry(): AreaCountry?
+    fun getAreaRegion(): AreaRegion?
     fun saveAreaCountry(areaCountry: AreaCountry)
 }
