@@ -50,8 +50,19 @@ class FilterSettingsFragment : Fragment() {
         industryTextWatcher = binding.industryInput.addTextChangedListener(
             onTextChanged = onTextChanged(binding.industryTextLayout, binding.industryAction)
         )
-        binding.workplaceInput.setText("")
-        binding.industryInput.setText("Example")
+
+        filterSettingsViewModel.init()
+
+        filterSettingsViewModel.filter.observe(viewLifecycleOwner) { state ->
+            binding.industryInput.setText(state.industry?.name)
+            binding.workplaceInput.setText(state.areaCountry?.name)
+            binding.expectedSalaryInput.setText(state.salary?.toString())
+            if (state.isOnlyWithSalary == true) {
+                binding.hideWithoutSalaryCheckbox.isChecked = true
+            }
+        }
+
+
     }
 
     override fun onDestroyView() {

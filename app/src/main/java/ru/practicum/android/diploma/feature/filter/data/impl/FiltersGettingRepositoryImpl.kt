@@ -7,7 +7,7 @@ import ru.practicum.android.diploma.feature.filter.domain.api.FiltersGettingRepo
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaCountry
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaRegion
 import ru.practicum.android.diploma.feature.filter.domain.model.Filters
-import ru.practicum.android.diploma.feature.filter.domain.model.Industry
+import ru.practicum.android.diploma.feature.vacancy.domain.model.Industry
 import java.lang.reflect.Type
 
 class FiltersGettingRepositoryImpl(
