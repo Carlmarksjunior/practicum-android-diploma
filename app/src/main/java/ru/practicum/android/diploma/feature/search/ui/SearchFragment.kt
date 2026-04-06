@@ -51,6 +51,17 @@ class SearchFragment : Fragment() {
     }
 
     private fun observeEvents() {
+        // слушатель кнопки "Применить" в настройках фильтрации
+        parentFragmentManager.setFragmentResultListener("filter_updated", viewLifecycleOwner) { _, bundle ->
+            val isChanged = bundle.getBoolean("bundle_key", false)
+            if (isChanged) {
+                searchViewModel.getAllFilters()
+            }
+            val currentQuery = binding.searchInput.text.toString()
+            if (currentQuery.isNotBlank()) {
+                searchViewModel.onSearchTextChanged(currentQuery)
+            }
+        }
         searchViewModel.observeAllFiltersLiveData().observe(viewLifecycleOwner) {
             showFilterButton(it)
         }

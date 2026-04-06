@@ -31,6 +31,12 @@ class FilterSettingsFragment : Fragment() {
         binding.navigateToIndustryButton.setOnClickListener {
             findNavController().navigate(R.id.action_filterSettingsFragment_to_filterIndustryFragment)
         }
+        /*
+        binding.applyButton.setOnClickListener {
+            setFragmentResult("filter_updated", bundleOf("bundle_key" to true))
+            findNavController().popBackStack()
+        }
+         */
     }
 
     override fun onDestroyView() {

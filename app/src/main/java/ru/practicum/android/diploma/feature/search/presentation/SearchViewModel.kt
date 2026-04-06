@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.feature.filter.domain.model.Filters
 import ru.practicum.android.diploma.feature.filter.domain.model.SearchFilters
 import ru.practicum.android.diploma.feature.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.feature.search.domain.model.VacancyListInfo
@@ -34,6 +33,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     private var maxPage = -1
     private var itemPositionInvokingSearch = -1
     private val vacancies = mutableListOf<Vacancy>()
+    private var filters: SearchFilters? = null
     private val searchDebounce = debounce<String>(DEBOUNCE_DELAY, viewModelScope, true) { query ->
         if (query.isNotEmpty() && query.isNotBlank()) {
             resetPage()
@@ -56,7 +56,8 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
 
     fun onListScroll(lastVisibleItemPosition: Int) {
         if (itemPositionInvokingSearch != -1 &&
-            itemPositionInvokingSearch <= lastVisibleItemPosition && currentPage < maxPage) {
+            itemPositionInvokingSearch <= lastVisibleItemPosition && currentPage < maxPage
+        ) {
             searchState.value = SearchState.LoadingMore
             if (currentPage != lastRequestedPage) {
                 lastRequestedPage = currentPage
@@ -123,7 +124,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     }
 
     private fun doRequest(query: String): Flow<Resource<VacancyListInfo>> {
-        return searchInteractor.searchVacancies(query, null, currentPage)
+        return searchInteractor.searchVacancies(query, filters, currentPage)
     }
 
     private fun onNextPage(newMaxPage: Int, newVacancies: List<Vacancy>, newCurrentPage: Int = currentPage + 1) {
@@ -143,7 +144,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
 
     fun getAllFilters() {
         viewModelScope.launch {
-            val filters = searchInteractor.getAllFilters()
+            filters = searchInteractor.getAllFilters()
             val hasFilters = filters?.let {
                 it.salary != null || it.areaId != null || it.industryId != null || it.isOnlyWithSalary == true
             } ?: false
