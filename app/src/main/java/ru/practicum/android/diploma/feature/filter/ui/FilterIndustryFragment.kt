@@ -90,7 +90,8 @@ class FilterIndustryFragment : Fragment() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 industryViewModel.saveIndustry()
-                isEnabled = false
+                isEnabled = true
+                findNavController().popBackStack()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(

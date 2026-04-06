@@ -24,4 +24,8 @@ class FilterSettingsViewModel(
         }
     }
 
+    fun deleteFilter(name: String) {
+        deleteFilterByKeyUseCase.execute(name)
+    }
+
 }
