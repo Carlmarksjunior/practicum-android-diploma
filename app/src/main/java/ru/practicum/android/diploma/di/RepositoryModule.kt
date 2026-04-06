@@ -9,11 +9,13 @@ import ru.practicum.android.diploma.feature.filter.data.impl.FiltersDeletingRepo
 import ru.practicum.android.diploma.feature.filter.data.impl.FiltersGettingRepositoryImpl
 import ru.practicum.android.diploma.feature.filter.data.impl.FiltersSavingRepositoryImpl
 import ru.practicum.android.diploma.feature.filter.data.impl.IndustryRepositoryImpl
+import ru.practicum.android.diploma.feature.filter.data.impl.regions.FilterRegionsRepositoryImpl
 import ru.practicum.android.diploma.feature.filter.domain.api.FilterCountryRepository
 import ru.practicum.android.diploma.feature.filter.domain.api.FiltersDeletingRepository
 import ru.practicum.android.diploma.feature.filter.domain.api.FiltersGettingRepository
 import ru.practicum.android.diploma.feature.filter.domain.api.FiltersSavingRepository
 import ru.practicum.android.diploma.feature.filter.domain.api.IndustryRepository
+import ru.practicum.android.diploma.feature.filter.domain.api.regions.FilterRegionsRepository
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaCountry
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaRegion
 import ru.practicum.android.diploma.feature.filter.domain.model.Industry
@@ -29,6 +31,10 @@ val repositoryModule = module {
     }
     single<VacancyRepository> {
         VacancyRepositoryImpl(get(), get(), get())
+    }
+
+    single<FilterRegionsRepository> {
+        FilterRegionsRepositoryImpl(get(), get())
     }
 
     single {

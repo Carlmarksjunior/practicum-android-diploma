@@ -18,5 +18,4 @@ sealed interface RequestDto {
     ) : RequestDto, WithPathId
 
     object Area : RequestDto
-
 }

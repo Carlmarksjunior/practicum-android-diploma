@@ -50,7 +50,7 @@ class VacanciesAdapter(
 class VacancyViewHolder(private val binding: ItemVacancyBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(vacancy: Vacancy, salaryMessage: String) {
-        val vacancyName = vacancy.name
+        val vacancyName = vacancy.name.replace(Regex("\\s+в\\s+\\S+$"), "")
         val city = vacancy.address?.city
         Glide.with(binding.posterImg.context)
             .load(vacancy.employer?.logo)

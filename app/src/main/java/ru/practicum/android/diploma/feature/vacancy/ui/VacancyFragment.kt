@@ -100,11 +100,11 @@ class VacancyFragment : Fragment() {
 
     private fun setupMainInfo(vacancy: Vacancy) {
         with(binding) {
-            vacancyName.text = vacancy.name
+            vacancyName.text = vacancy.name.replace(Regex("\\s+в\\s+\\S+$"), "")
             vacancySalary.text = SalaryFormatter(vacancy.salary, requireContext()).format()
 
             employerName.text = vacancy.employer?.name
-            regionCity.text = vacancy.address?.raw ?: vacancy.area?.name
+            regionCity.text = vacancy.address?.city ?: vacancy.area?.name
 
             Glide.with(requireContext())
                 .load(vacancy.employer?.logo)

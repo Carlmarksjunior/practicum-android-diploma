@@ -26,6 +26,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:background="@null"
+        app:tint="?attr/colorOnBackgroundPrimary"
         android:contentDescription="@string/choose_country_btn"
         android:src="@drawable/ic_arrow_forward"
         app:layout_constraintBottom_toBottomOf="parent"

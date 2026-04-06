@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.feature.filter.domain.api.IndustryInteractor
+import ru.practicum.android.diploma.feature.filter.domain.api.IndustrySaveInteractor
 import ru.practicum.android.diploma.feature.filter.presentation.state.IndustryScreenState
 import ru.practicum.android.diploma.feature.filter.ui.toUiModel
 import ru.practicum.android.diploma.feature.vacancy.domain.model.Industry
 
 class IndustryViewModel(
     private val industryInteractor: IndustryInteractor,
+    private val saveIndustryInteractor: IndustrySaveInteractor
 ) : ViewModel() {
 
     private val _industryScreenState = MutableLiveData<IndustryScreenState>()
@@ -72,6 +74,15 @@ class IndustryViewModel(
         )
 
         updateState(newState)
+    }
+
+    fun saveIndustry() {
+        val currentState = _industryScreenState.value ?: IndustryScreenState()
+
+        val target = currentState.allIndustries.find { it.id == currentState.selectedIndustryId }
+        if (target != null) {
+            saveIndustryInteractor.setIndustry(Industry(target.id, target.name))
+        }
     }
 
 }
