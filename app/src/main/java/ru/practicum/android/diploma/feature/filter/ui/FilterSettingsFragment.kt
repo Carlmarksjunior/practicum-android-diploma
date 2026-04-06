@@ -12,8 +12,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterSettingsBinding
+import ru.practicum.android.diploma.feature.filter.presentation.FilterSettingsViewModel
+import kotlin.getValue
 
 class FilterSettingsFragment : Fragment() {
 
@@ -21,6 +24,8 @@ class FilterSettingsFragment : Fragment() {
     private val binding get() = _binging!!
     private var workplaceTextWatcher: TextWatcher? = null
     private var industryTextWatcher: TextWatcher? = null
+
+    private val filterSettingsViewModel: FilterSettingsViewModel by viewModel<FilterSettingsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
