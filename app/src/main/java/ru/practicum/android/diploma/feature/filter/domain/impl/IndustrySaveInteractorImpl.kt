@@ -5,9 +5,10 @@ import ru.practicum.android.diploma.feature.filter.domain.api.IndustrySaveIntera
 import ru.practicum.android.diploma.feature.filter.domain.model.FilterIndustry
 
 class IndustrySaveInteractorImpl(
-    private val repository: FiltersSavingRepository
+    private val repository: FiltersSavingRepository,
 ) : IndustrySaveInteractor {
     override fun setIndustry(industry: FilterIndustry) {
         repository.setIndustry(industry)
     }
+
 }

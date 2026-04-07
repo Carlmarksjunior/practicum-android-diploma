@@ -34,7 +34,7 @@ val interactorModule = module {
     }
 
     single<IndustryInteractor> {
-        IndustryInteractorImpl(get())
+        IndustryInteractorImpl(get(), get())
     }
 
     single<IndustrySaveInteractor> {
