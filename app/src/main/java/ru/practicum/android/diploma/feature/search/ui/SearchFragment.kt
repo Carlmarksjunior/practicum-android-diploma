@@ -59,7 +59,7 @@ class SearchFragment : Fragment() {
             }
             val currentQuery = binding.searchInput.text.toString()
             if (currentQuery.isNotBlank()) {
-                searchViewModel.onSearchTextChanged(currentQuery)
+                searchViewModel.onSearchApplyButton(currentQuery)
             }
         }
         searchViewModel.observeAllFiltersLiveData().observe(viewLifecycleOwner) {

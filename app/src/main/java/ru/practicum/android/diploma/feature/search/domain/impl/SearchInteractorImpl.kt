@@ -22,8 +22,9 @@ class SearchInteractorImpl(
 
     override suspend fun getAllFilters(): SearchFilters {
         return SearchFilters(
-            areaId = filtersGettingRepository.getRegion()?.id ?: filtersGettingRepository.getCountry()?.id,
-            industryId = filtersGettingRepository.getIndustry()?.id,
+            areaId = filtersGettingRepository.getRegion()?.id?.toInt()
+                ?: filtersGettingRepository.getCountry()?.id?.toInt(),
+            industryId = filtersGettingRepository.getIndustry()?.id?.toInt(),
             salary = filtersGettingRepository.getSalary(),
             isOnlyWithSalary = filtersGettingRepository.getIsOnlyWithSalary() ?: false
         )

@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -88,12 +90,6 @@ class FilterSettingsFragment : Fragment() {
         binding.resetButton.setOnClickListener {
             filterSettingsViewModel.clearFilters()
         }
-        /*
-        binding.applyButton.setOnClickListener {
-            setFragmentResult("filter_updated", bundleOf("bundle_key" to true))
-            findNavController().popBackStack()
-        }
-         */
     }
 
     override fun onDestroyView() {
@@ -128,6 +124,7 @@ class FilterSettingsFragment : Fragment() {
             findNavController().popBackStack()
         }
         binding.applyButton.setOnClickListener {
+            setFragmentResult("filter_updated", bundleOf("bundle_key" to true))
             findNavController().popBackStack()
         }
     }

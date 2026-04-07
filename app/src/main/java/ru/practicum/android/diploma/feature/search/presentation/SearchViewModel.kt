@@ -41,6 +41,11 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         }
     }
 
+    fun onSearchApplyButton(query: String) {
+        resetPage()
+        firstPageRequest(query)
+    }
+
     fun onSearchTextChanged(text: String) {
         if (text == searchText) return
         searchText = text
