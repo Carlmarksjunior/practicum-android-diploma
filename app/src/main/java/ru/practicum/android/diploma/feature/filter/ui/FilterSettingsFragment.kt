@@ -19,8 +19,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterSettingsBinding
 import ru.practicum.android.diploma.feature.filter.domain.impl.DeleteFilterByKeyUseCaseImpl.Companion.AREA_COUNTRY_KEY
+import ru.practicum.android.diploma.feature.filter.domain.impl.DeleteFilterByKeyUseCaseImpl.Companion.AREA_REGION_KEY
 import ru.practicum.android.diploma.feature.filter.domain.impl.DeleteFilterByKeyUseCaseImpl.Companion.INDUSTRY_KEY
 import ru.practicum.android.diploma.feature.filter.domain.impl.DeleteFilterByKeyUseCaseImpl.Companion.SALARY_KEY
+import ru.practicum.android.diploma.feature.filter.domain.model.AreaCountry
+import ru.practicum.android.diploma.feature.filter.domain.model.AreaRegion
 import ru.practicum.android.diploma.feature.filter.presentation.FilterSettingsViewModel
 import kotlin.getValue
 
@@ -44,38 +47,21 @@ class FilterSettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.workplaceInput.setOnClickListener {
-            findNavController().navigate(R.id.action_filterSettingsFragment_to_filterLocationFragment)
-        }
-        binding.workplaceAction.setOnClickListener {
-            onWorkplaceNavigateOrDelete()
-        }
-        binding.industryInput.setOnClickListener {
-            findNavController().navigate(R.id.action_filterSettingsFragment_to_filterIndustryFragment)
-        }
-        binding.industryAction.setOnClickListener {
-            onIndustryNavigateOrDelete()
-        }
+        setupNavigationListeners()
         workplaceTextWatcher = binding.workplaceInput.addTextChangedListener(
             onTextChanged = onTextChanged(binding.workplaceTextLayout, binding.workplaceAction)
         )
         industryTextWatcher = binding.industryInput.addTextChangedListener(
             onTextChanged = onTextChanged(binding.industryTextLayout, binding.industryAction)
         )
-
         binding.hideWithoutSalaryCheckbox.setOnCheckedChangeListener { _, isChecked ->
             filterSettingsViewModel.setIsOnlyWithSalary(isChecked)
-        }
-
-        binding.back.setOnClickListener {
-            findNavController().popBackStack()
         }
 
         binding.expectedSalaryClear.setOnClickListener {
             filterSettingsViewModel.deleteFilter(SALARY_KEY)
             binding.expectedSalaryInput.text?.clear()
         }
-
         binding.expectedSalaryInput.doOnTextChanged { text, _, _, _ ->
             val value = text?.toString()
             if (value?.isEmpty() == true || value?.isBlank() == true) {
@@ -88,64 +74,20 @@ class FilterSettingsFragment : Fragment() {
                 binding.expectedSalaryClear.isVisible = true
             }
         }
-
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                isEnabled = true
-                findNavController().popBackStack()
-            }
-        }
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
-            callback
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    isEnabled = true
+                    findNavController().popBackStack()
+                }
+            }
         )
-
         filterSettingsViewModel.init()
-
-        filterSettingsViewModel.filter.observe(viewLifecycleOwner) { state ->
-            if (state.industry?.name != null) {
-                binding.industryInput.setText(state.industry.name)
-                binding.industryAction.setImageResource(R.drawable.ic_close)
-                binding.industryAction.tag = R.drawable.ic_close
-            } else {
-                binding.industryAction.setImageResource(R.drawable.ic_arrow_forward)
-                binding.industryAction.tag = R.drawable.ic_arrow_forward
-                binding.industryInput.text?.clear()
-                binding.industryInput.text?.let {
-                    onTextChanged(binding.industryTextLayout, binding.industryAction)(it, 0, 0, 0)
-                }
-
-            }
-            if (state.areaCountry?.name != null) {
-                binding.workplaceInput.setText(state.areaCountry.name)
-                binding.workplaceAction.setImageResource(R.drawable.ic_close)
-                binding.workplaceAction.tag = R.drawable.ic_close
-            } else {
-                binding.workplaceAction.setImageResource(R.drawable.ic_arrow_forward)
-                binding.workplaceAction.tag = R.drawable.ic_arrow_forward
-                binding.workplaceInput.text?.clear()
-                binding.workplaceInput.text?.let {
-                    onTextChanged(binding.workplaceTextLayout, binding.workplaceAction)(it, 0, 0, 0)
-                }
-            }
-            if (state.salary != null) {
-                binding.expectedSalaryInput.setText(state.salary.toString())
-                binding.expectedSalaryClear.isVisible = true
-            } else {
-                binding.expectedSalaryInput.text?.clear()
-                binding.expectedSalaryClear.isVisible = false
-            }
-            binding.hideWithoutSalaryCheckbox.isChecked = state.isOnlyWithSalary == true
-        }
-
-        binding.applyButton.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
+        attachObservers()
         binding.resetButton.setOnClickListener {
             filterSettingsViewModel.clearFilters()
         }
-
     }
 
     override fun onDestroyView() {
@@ -157,41 +99,103 @@ class FilterSettingsFragment : Fragment() {
         _binging = null
     }
 
-    private fun onWorkplaceNavigateOrDelete() {
-        if (binding.workplaceAction.tag == R.drawable.ic_arrow_forward) {
+    private fun setupNavigationListeners() {
+        binding.workplaceInput.setOnClickListener {
             findNavController().navigate(R.id.action_filterSettingsFragment_to_filterLocationFragment)
-        } else {
-            filterSettingsViewModel.deleteFilter(AREA_COUNTRY_KEY)
         }
-    }
-
-    private fun onIndustryNavigateOrDelete() {
-        if (binding.industryAction.tag == R.drawable.ic_arrow_forward) {
+        binding.workplaceTextLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_filterSettingsFragment_to_filterLocationFragment)
+        }
+        binding.workplaceAction.setOnClickListener {
+            onWorkplaceNavigateOrDelete()
+        }
+        binding.industryInput.setOnClickListener {
             findNavController().navigate(R.id.action_filterSettingsFragment_to_filterIndustryFragment)
-        } else {
-            filterSettingsViewModel.deleteFilter(INDUSTRY_KEY)
+        }
+        binding.industryTextLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_filterSettingsFragment_to_filterIndustryFragment)
+        }
+        binding.industryAction.setOnClickListener {
+            onIndustryNavigateOrDelete()
+        }
+        binding.back.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        binding.applyButton.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
-    private fun onTextChanged(
-        textLayout: TextInputLayout,
-        actionButton: ImageButton
-    ): (CharSequence?, Int, Int, Int) -> Unit {
-        return { text, _, _, _ ->
-            if (text.isNullOrEmpty()) {
-                textLayout.defaultHintTextColor = ContextCompat.getColorStateList(requireActivity(), R.color.gray)
-                actionButton.setImageResource(R.drawable.ic_arrow_forward)
+    private fun attachObservers() {
+        filterSettingsViewModel.filter.observe(viewLifecycleOwner) { state ->
+
+            if (state.industry?.name != null) {
+                binding.industryInput.setText(state.industry.name)
             } else {
-                val typedValue = TypedValue()
-                requireActivity().theme.resolveAttribute(
-                    R.attr.colorOnBackgroundPrimary,
-                    typedValue,
-                    true
-                )
-                textLayout.defaultHintTextColor =
-                    ContextCompat.getColorStateList(requireActivity(), typedValue.resourceId)
-                actionButton.setImageResource(R.drawable.ic_close)
+                binding.industryInput.setText("")
             }
+            if (state.areaCountry == null && state.areaRegion == null) {
+                binding.workplaceInput.setText("")
+            } else {
+                binding.workplaceInput.setText(getWorkplaceText(state.areaCountry, state.areaRegion))
+            }
+            if (state.salary != null) {
+                binding.expectedSalaryInput.setText(state.salary.toString())
+                binding.expectedSalaryClear.isVisible = true
+            } else {
+                binding.expectedSalaryInput.text?.clear()
+                binding.expectedSalaryClear.isVisible = false
+            }
+            binding.hideWithoutSalaryCheckbox.isChecked = state.isOnlyWithSalary == true
         }
     }
+
+private fun getWorkplaceText(areaCountry: AreaCountry?, areaRegion: AreaRegion?): String {
+    return if (areaRegion == null) {
+        areaCountry!!.name
+    } else {
+        areaRegion.parentName + ", " + areaRegion.name
+    }
+}
+
+private fun onWorkplaceNavigateOrDelete() {
+    if (binding.workplaceAction.tag == R.drawable.ic_arrow_forward) {
+        findNavController().navigate(R.id.action_filterSettingsFragment_to_filterLocationFragment)
+    } else {
+        filterSettingsViewModel.deleteFilter(AREA_COUNTRY_KEY)
+        filterSettingsViewModel.deleteFilter(AREA_REGION_KEY)
+    }
+}
+
+private fun onIndustryNavigateOrDelete() {
+    if (binding.industryAction.tag == R.drawable.ic_arrow_forward) {
+        findNavController().navigate(R.id.action_filterSettingsFragment_to_filterIndustryFragment)
+    } else {
+        filterSettingsViewModel.deleteFilter(INDUSTRY_KEY)
+    }
+}
+
+private fun onTextChanged(
+    textLayout: TextInputLayout,
+    actionButton: ImageButton
+): (CharSequence?, Int, Int, Int) -> Unit {
+    return { text, _, _, _ ->
+        if (text.isNullOrEmpty()) {
+            textLayout.defaultHintTextColor = ContextCompat.getColorStateList(requireActivity(), R.color.gray)
+            actionButton.setImageResource(R.drawable.ic_arrow_forward)
+            actionButton.tag = R.drawable.ic_arrow_forward
+        } else {
+            val typedValue = TypedValue()
+            requireActivity().theme.resolveAttribute(
+                R.attr.colorOnBackgroundPrimary,
+                typedValue,
+                true
+            )
+            textLayout.defaultHintTextColor =
+                ContextCompat.getColorStateList(requireActivity(), typedValue.resourceId)
+            actionButton.setImageResource(R.drawable.ic_close)
+            actionButton.tag = R.drawable.ic_close
+        }
+    }
+}
 }
