@@ -4,34 +4,34 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import ru.practicum.android.diploma.databinding.ItemRegionBinding
-import ru.practicum.android.diploma.feature.filter.domain.model.AreaRegion
+import ru.practicum.android.diploma.databinding.ItemCountryBinding
+import ru.practicum.android.diploma.feature.filter.domain.model.AreaCountry
 
-class RegionAdapter(
-    private val onItemClick: (AreaRegion) -> Unit
-) : RecyclerView.Adapter<RegionViewHolder>() {
+class CountryAdapter(
+    private val onItemClick: (AreaCountry) -> Unit
+) : RecyclerView.Adapter<CountryViewHolder>() {
 
-    private var countries = listOf<AreaRegion>()
+    private var countries = listOf<AreaCountry>()
 
     /**
      * Используем метод submitList при изменении данных из UI потока
      */
-    fun submitList(newList: List<AreaRegion>) {
-        val diff = DiffUtil.calculateDiff(RegionDiffCallback(countries, newList))
+    fun submitList(newList: List<AreaCountry>) {
+        val diff = DiffUtil.calculateDiff(CountryDiffCallback(countries, newList))
         countries = newList
         diff.dispatchUpdatesTo(this)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RegionViewHolder =
-        RegionViewHolder(
-            ItemRegionBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder =
+        CountryViewHolder(
+            ItemCountryBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
         )
 
-    override fun onBindViewHolder(holder: RegionViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
         val country = countries[position]
         holder.bind(country)
         holder.itemView.setOnClickListener {
@@ -44,14 +44,14 @@ class RegionAdapter(
     }
 }
 
-class RegionViewHolder(private val binding: ItemRegionBinding) : RecyclerView.ViewHolder(binding.root) {
+class CountryViewHolder(private val binding: ItemCountryBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(country: AreaRegion) {
-        binding.regionTv.text = country.name
+    fun bind(country: AreaCountry) {
+        binding.countryTv.text = country.name
     }
 }
 
-class RegionDiffCallback(private val oldList: List<AreaRegion>, private val newList: List<AreaRegion>) :
+class CountryDiffCallback(private val oldList: List<AreaCountry>, private val newList: List<AreaCountry>) :
     DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldList.size

@@ -4,6 +4,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.feature.filter.data.dao.RegionDto
+import ru.practicum.android.diploma.feature.search.data.dto.AreaDto
 import ru.practicum.android.diploma.feature.search.data.dto.VacancyDto
 import ru.practicum.android.diploma.feature.search.data.dto.VacancySearchResponse
 
@@ -20,4 +21,7 @@ interface VacancyApiService {
 
     @GET("areas")
     suspend fun getRegions(): List<RegionDto>
+
+    @GET("areas")
+    suspend fun getFilterAreas(): List<AreaDto>
 }
