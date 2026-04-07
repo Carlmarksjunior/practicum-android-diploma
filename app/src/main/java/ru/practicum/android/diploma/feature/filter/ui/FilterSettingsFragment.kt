@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -64,14 +63,6 @@ class FilterSettingsFragment : Fragment() {
             onTextChanged = onTextChanged(binding.industryTextLayout, binding.industryAction)
         )
 
-        binding.workplaceInput.text?.let {
-            onTextChanged(binding.workplaceTextLayout, binding.workplaceAction)(it, 0, 0, 0)
-        }
-
-        binding.industryInput.text?.let {
-            onTextChanged(binding.industryTextLayout, binding.industryAction)(it, 0, 0, 0)
-        }
-
         binding.hideWithoutSalaryCheckbox.setOnCheckedChangeListener { _, isChecked ->
             filterSettingsViewModel.setIsOnlyWithSalary(isChecked)
         }
@@ -120,6 +111,9 @@ class FilterSettingsFragment : Fragment() {
                 binding.industryAction.setImageResource(R.drawable.ic_arrow_forward)
                 binding.industryAction.tag = R.drawable.ic_arrow_forward
                 binding.industryInput.text?.clear()
+                binding.industryInput.text?.let {
+                    onTextChanged(binding.industryTextLayout, binding.industryAction)(it, 0, 0, 0)
+                }
 
             }
             if (state.areaCountry?.name != null) {
@@ -130,6 +124,9 @@ class FilterSettingsFragment : Fragment() {
                 binding.workplaceAction.setImageResource(R.drawable.ic_arrow_forward)
                 binding.workplaceAction.tag = R.drawable.ic_arrow_forward
                 binding.workplaceInput.text?.clear()
+                binding.workplaceInput.text?.let {
+                    onTextChanged(binding.workplaceTextLayout, binding.workplaceAction)(it, 0, 0, 0)
+                }
             }
             if (state.salary != null) {
                 binding.expectedSalaryInput.setText(state.salary.toString())
