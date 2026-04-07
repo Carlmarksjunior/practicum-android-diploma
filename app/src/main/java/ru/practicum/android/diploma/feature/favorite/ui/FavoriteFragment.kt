@@ -117,5 +117,6 @@ class FavoriteFragment : Fragment() {
 
     companion object {
         const val ITEM_CLICK_DEBOUNCE = 1000L
+        const val SHORT_ITEM_CLICK_DEBOUNCE = 500L
     }
 }

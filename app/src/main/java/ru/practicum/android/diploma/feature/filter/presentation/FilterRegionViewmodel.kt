@@ -67,7 +67,7 @@ class FilterRegionViewmodel(private val filterRegionsInteractor: FilterRegionsIn
         val selectedCountry = filterRegionsInteractor.getCountry()
 
         return if (selectedCountry != null) {
-            allRegions.filter { region -> region.parentId == selectedCountry.id }
+            allRegions.filter { region -> region.parentId == selectedCountry.id.toInt() }
         } else {
             allRegions
         }

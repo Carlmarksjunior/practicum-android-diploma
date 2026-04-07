@@ -70,7 +70,7 @@ data class AreaDto(
     val parentId: String? = null,
     val name: String? = null,
     val areas: List<AreaDto>? = null
-)
+) : Response()
 
 data class IndustryDto(
     val id: String? = null,
