@@ -48,6 +48,6 @@ val interactorModule = module {
     }
 
     single<FilterSettingsInteractor> {
-        FilterSettingsInteractorImpl(get())
+        FilterSettingsInteractorImpl(get(), get())
     }
 }

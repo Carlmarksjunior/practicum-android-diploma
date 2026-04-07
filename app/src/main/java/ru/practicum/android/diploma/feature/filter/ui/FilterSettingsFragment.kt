@@ -43,14 +43,12 @@ class FilterSettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.workplaceTextLayout.setOnClickListener(onWorkplaceClick())
         binding.workplaceInput.setOnClickListener {
             findNavController().navigate(R.id.action_filterSettingsFragment_to_filterLocationFragment)
         }
         binding.workplaceAction.setOnClickListener {
             onWorkplaceNavigateOrDelete()
         }
-        binding.industryTextLayout.setOnClickListener(onIndustryClick())
         binding.industryInput.setOnClickListener {
             findNavController().navigate(R.id.action_filterSettingsFragment_to_filterIndustryFragment)
         }
@@ -63,6 +61,9 @@ class FilterSettingsFragment : Fragment() {
         industryTextWatcher = binding.industryInput.addTextChangedListener(
             onTextChanged = onTextChanged(binding.industryTextLayout, binding.industryAction)
         )
+        binding.hideWithoutSalaryCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            filterSettingsViewModel.setIsOnlyWithSalary(isChecked)
+        }
 
         binding.back.setOnClickListener {
             findNavController().popBackStack()
@@ -120,23 +121,11 @@ class FilterSettingsFragment : Fragment() {
         _binging = null
     }
 
-    private fun onWorkplaceClick(): View.OnClickListener {
-        return {
-            Toast.makeText(context, "Workplace", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     private fun onWorkplaceNavigateOrDelete() {
         if (binding.workplaceAction.tag == R.drawable.ic_arrow_forward) {
             findNavController().navigate(R.id.action_filterSettingsFragment_to_filterLocationFragment)
         } else {
             filterSettingsViewModel.deleteFilter(AREA_COUNTRY_KEY)
-        }
-    }
-
-    private fun onIndustryClick(): View.OnClickListener {
-        return {
-            Toast.makeText(context, "Industry", Toast.LENGTH_SHORT).show()
         }
     }
 

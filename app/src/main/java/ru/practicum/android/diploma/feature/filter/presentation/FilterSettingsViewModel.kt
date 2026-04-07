@@ -24,6 +24,14 @@ class FilterSettingsViewModel(
         }
     }
 
+    fun setSalary(salary: Int) {
+        filterSettingsInteractor.setSalary(salary)
+    }
+
+    fun setIsOnlyWithSalary(isOnlyWithSalary: Boolean) {
+        filterSettingsInteractor.setIsOnlyWithSalary(isOnlyWithSalary)
+    }
+
     fun deleteFilter(name: String) {
         deleteFilterByKeyUseCase.execute(name)
         init()
