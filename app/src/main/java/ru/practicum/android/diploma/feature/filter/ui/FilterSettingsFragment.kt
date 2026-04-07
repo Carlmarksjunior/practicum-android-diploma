@@ -129,6 +129,10 @@ class FilterSettingsFragment : Fragment() {
             binding.hideWithoutSalaryCheckbox.isChecked = state.isOnlyWithSalary == true
         }
 
+        binding.applyButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         binding.resetButton.setOnClickListener {
             filterSettingsViewModel.clearFilters()
         }
