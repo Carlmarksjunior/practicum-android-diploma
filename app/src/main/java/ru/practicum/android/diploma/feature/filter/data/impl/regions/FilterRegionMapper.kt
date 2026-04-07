@@ -10,9 +10,9 @@ class FilterRegionMapper {
         fun extractAreas(dto: RegionDto) {
             dto.areas?.forEach { area ->
                 result.add(AreaRegion(
-                    id = area.id?.toInt() ?: 0,
+                    id = area.id ?: "",
                     name = area.name ?: "",
-                    parentId = dto.id?.toInt() ?: 0,
+                    parentId = dto.id ?: "",
                     parentName = dto.name ?: ""
                 ))
                 extractAreas(area)
