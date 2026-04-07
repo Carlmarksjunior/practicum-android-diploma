@@ -150,52 +150,52 @@ class FilterSettingsFragment : Fragment() {
         }
     }
 
-private fun getWorkplaceText(areaCountry: AreaCountry?, areaRegion: AreaRegion?): String {
-    return if (areaRegion == null) {
-        areaCountry!!.name
-    } else {
-        areaRegion.parentName + ", " + areaRegion.name
-    }
-}
-
-private fun onWorkplaceNavigateOrDelete() {
-    if (binding.workplaceAction.tag == R.drawable.ic_arrow_forward) {
-        findNavController().navigate(R.id.action_filterSettingsFragment_to_filterLocationFragment)
-    } else {
-        filterSettingsViewModel.deleteFilter(AREA_COUNTRY_KEY)
-        filterSettingsViewModel.deleteFilter(AREA_REGION_KEY)
-    }
-}
-
-private fun onIndustryNavigateOrDelete() {
-    if (binding.industryAction.tag == R.drawable.ic_arrow_forward) {
-        findNavController().navigate(R.id.action_filterSettingsFragment_to_filterIndustryFragment)
-    } else {
-        filterSettingsViewModel.deleteFilter(INDUSTRY_KEY)
-    }
-}
-
-private fun onTextChanged(
-    textLayout: TextInputLayout,
-    actionButton: ImageButton
-): (CharSequence?, Int, Int, Int) -> Unit {
-    return { text, _, _, _ ->
-        if (text.isNullOrEmpty()) {
-            textLayout.defaultHintTextColor = ContextCompat.getColorStateList(requireActivity(), R.color.gray)
-            actionButton.setImageResource(R.drawable.ic_arrow_forward)
-            actionButton.tag = R.drawable.ic_arrow_forward
+    private fun getWorkplaceText(areaCountry: AreaCountry?, areaRegion: AreaRegion?): String {
+        return if (areaRegion == null) {
+            areaCountry!!.name
         } else {
-            val typedValue = TypedValue()
-            requireActivity().theme.resolveAttribute(
-                R.attr.colorOnBackgroundPrimary,
-                typedValue,
-                true
-            )
-            textLayout.defaultHintTextColor =
-                ContextCompat.getColorStateList(requireActivity(), typedValue.resourceId)
-            actionButton.setImageResource(R.drawable.ic_close)
-            actionButton.tag = R.drawable.ic_close
+            areaRegion.parentName + ", " + areaRegion.name
         }
     }
-}
+
+    private fun onWorkplaceNavigateOrDelete() {
+        if (binding.workplaceAction.tag == R.drawable.ic_arrow_forward) {
+            findNavController().navigate(R.id.action_filterSettingsFragment_to_filterLocationFragment)
+        } else {
+            filterSettingsViewModel.deleteFilter(AREA_COUNTRY_KEY)
+            filterSettingsViewModel.deleteFilter(AREA_REGION_KEY)
+        }
+    }
+
+    private fun onIndustryNavigateOrDelete() {
+        if (binding.industryAction.tag == R.drawable.ic_arrow_forward) {
+            findNavController().navigate(R.id.action_filterSettingsFragment_to_filterIndustryFragment)
+        } else {
+            filterSettingsViewModel.deleteFilter(INDUSTRY_KEY)
+        }
+    }
+
+    private fun onTextChanged(
+        textLayout: TextInputLayout,
+        actionButton: ImageButton
+    ): (CharSequence?, Int, Int, Int) -> Unit {
+        return { text, _, _, _ ->
+            if (text.isNullOrEmpty()) {
+                textLayout.defaultHintTextColor = ContextCompat.getColorStateList(requireActivity(), R.color.gray)
+                actionButton.setImageResource(R.drawable.ic_arrow_forward)
+                actionButton.tag = R.drawable.ic_arrow_forward
+            } else {
+                val typedValue = TypedValue()
+                requireActivity().theme.resolveAttribute(
+                    R.attr.colorOnBackgroundPrimary,
+                    typedValue,
+                    true
+                )
+                textLayout.defaultHintTextColor =
+                    ContextCompat.getColorStateList(requireActivity(), typedValue.resourceId)
+                actionButton.setImageResource(R.drawable.ic_close)
+                actionButton.tag = R.drawable.ic_close
+            }
+        }
+    }
 }
