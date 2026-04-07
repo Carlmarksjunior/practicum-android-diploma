@@ -12,7 +12,7 @@ class FilterSettingsViewModel(
     private val filterSettingsInteractor: FilterSettingsInteractor,
     private val deleteFilterByKeyUseCase: DeleteFilterByKeyUseCase,
     private val clearFiltersUseCase: ClearFiltersUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _filter = MutableLiveData<Filters>()
     val filter: LiveData<Filters> = _filter
@@ -26,6 +26,7 @@ class FilterSettingsViewModel(
 
     fun deleteFilter(name: String) {
         deleteFilterByKeyUseCase.execute(name)
+        init()
     }
 
 }

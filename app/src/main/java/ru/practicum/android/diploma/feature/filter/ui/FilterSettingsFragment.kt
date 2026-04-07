@@ -18,6 +18,8 @@ import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterSettingsBinding
+import ru.practicum.android.diploma.feature.filter.domain.impl.DeleteFilterByKeyUseCaseImpl.Companion.AREA_COUNTRY_KEY
+import ru.practicum.android.diploma.feature.filter.domain.impl.DeleteFilterByKeyUseCaseImpl.Companion.INDUSTRY_KEY
 import ru.practicum.android.diploma.feature.filter.presentation.FilterSettingsViewModel
 import kotlin.getValue
 
@@ -45,12 +47,16 @@ class FilterSettingsFragment : Fragment() {
         binding.workplaceInput.setOnClickListener {
             findNavController().navigate(R.id.action_filterSettingsFragment_to_filterLocationFragment)
         }
-        binding.workplaceAction.setOnClickListener(onWorkplaceNavigateOrDelete())
+        binding.workplaceAction.setOnClickListener {
+            onWorkplaceNavigateOrDelete()
+        }
         binding.industryTextLayout.setOnClickListener(onIndustryClick())
         binding.industryInput.setOnClickListener {
             findNavController().navigate(R.id.action_filterSettingsFragment_to_filterIndustryFragment)
         }
-        binding.industryAction.setOnClickListener(onIndustryNavigateOrDelete())
+        binding.industryAction.setOnClickListener {
+            onIndustryNavigateOrDelete()
+        }
         workplaceTextWatcher = binding.workplaceInput.addTextChangedListener(
             onTextChanged = onTextChanged(binding.workplaceTextLayout, binding.workplaceAction)
         )
@@ -79,14 +85,18 @@ class FilterSettingsFragment : Fragment() {
             if (state.industry?.name != null) {
                 binding.industryInput.setText(state.industry.name)
                 binding.industryAction.setImageResource(R.drawable.ic_close)
+                binding.industryAction.tag = R.drawable.ic_close
             } else {
                 binding.industryAction.setImageResource(R.drawable.ic_arrow_forward)
+                binding.industryAction.tag = R.drawable.ic_arrow_forward
             }
             if (state.areaCountry?.name != null) {
                 binding.workplaceInput.setText(state.areaCountry.name)
                 binding.workplaceAction.setImageResource(R.drawable.ic_close)
+                binding.workplaceAction.tag = R.drawable.ic_close
             } else {
                 binding.workplaceAction.setImageResource(R.drawable.ic_arrow_forward)
+                binding.workplaceAction.tag = R.drawable.ic_arrow_forward
             }
             if (state.salary != null) {
                 binding.expectedSalaryInput.setText(state.salary.toString())
@@ -98,7 +108,6 @@ class FilterSettingsFragment : Fragment() {
                 binding.hideWithoutSalaryCheckbox.isChecked = true
             }
         }
-
 
     }
 
@@ -117,9 +126,11 @@ class FilterSettingsFragment : Fragment() {
         }
     }
 
-    private fun onWorkplaceNavigateOrDelete(): View.OnClickListener {
-        return {
-            Toast.makeText(context, "Workplace navigate/delete", Toast.LENGTH_SHORT).show()
+    private fun onWorkplaceNavigateOrDelete() {
+        if (binding.workplaceAction.tag == R.drawable.ic_arrow_forward) {
+            findNavController().navigate(R.id.action_filterSettingsFragment_to_filterLocationFragment)
+        } else {
+            filterSettingsViewModel.deleteFilter(AREA_COUNTRY_KEY)
         }
     }
 
@@ -129,10 +140,11 @@ class FilterSettingsFragment : Fragment() {
         }
     }
 
-    private fun onIndustryNavigateOrDelete(): View.OnClickListener {
-        return {
-
-            Toast.makeText(context, "Industry navigate/delete", Toast.LENGTH_SHORT).show()
+    private fun onIndustryNavigateOrDelete() {
+        if (binding.industryAction.tag == R.drawable.ic_arrow_forward) {
+            findNavController().navigate(R.id.action_filterSettingsFragment_to_filterIndustryFragment)
+        } else {
+            filterSettingsViewModel.deleteFilter(INDUSTRY_KEY)
         }
     }
 
