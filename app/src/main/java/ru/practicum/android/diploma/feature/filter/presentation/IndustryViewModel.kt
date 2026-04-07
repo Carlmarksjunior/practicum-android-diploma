@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.feature.filter.domain.api.IndustryInteractor
 import ru.practicum.android.diploma.feature.filter.domain.api.IndustrySaveInteractor
 import ru.practicum.android.diploma.feature.filter.domain.model.FilterIndustry
@@ -58,6 +59,7 @@ class IndustryViewModel(
 
     fun onSearchTextChanged(text: String) {
         val currentState = _industryScreenState.value ?: IndustryScreenState()
+        var errorMessageId: Int? = null
 
         val updatedIndustries = if (text.isEmpty()) {
             currentState.allIndustries.map {
@@ -69,9 +71,14 @@ class IndustryViewModel(
                 .filter { it.name?.contains(text, ignoreCase = true) == true }
         }
 
+        if (updatedIndustries.isEmpty()) {
+            errorMessageId = R.string.failed_to_load_regions
+        }
+
         val newState = currentState.copy(
             searchQuery = text,
-            visibleIndustries = updatedIndustries
+            visibleIndustries = updatedIndustries,
+            errorMessageId = errorMessageId
         )
 
         updateState(newState)

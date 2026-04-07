@@ -31,7 +31,7 @@ class FilterIndustryFragment : Fragment() {
         binding.industryRecyclerView.isVisible = false
         binding.placeholderText.text = errorText
         when (errorText) {
-            getString(R.string.server_error) -> {
+            getString(R.string.server_error), getString(R.string.failed_to_load_regions) -> {
                 binding.placeholderImage.setImageResource(R.drawable.img_request_unsuccessful_magic_carpet)
             }
             else -> {
@@ -56,7 +56,7 @@ class FilterIndustryFragment : Fragment() {
     }
 
     private fun renderState(state: IndustryScreenState) {
-        if (state.errorMessage == null) {
+        if (state.errorMessage == null && state.errorMessageId == null) {
             val hasSelectedVisible = state.visibleIndustries.any { it.isSelected }
             binding.selectButton.isVisible = hasSelectedVisible
             binding.placeholderImage.isVisible = false
@@ -64,7 +64,8 @@ class FilterIndustryFragment : Fragment() {
             binding.industryRecyclerView.isVisible = true
             adapter.updateIndustries(state.visibleIndustries)
         } else {
-            showError(state.errorMessage)
+            val errorMessageFromId = if (state.errorMessageId != null) getString(state.errorMessageId) else ""
+            showError(state.errorMessage ?: errorMessageFromId)
         }
     }
 

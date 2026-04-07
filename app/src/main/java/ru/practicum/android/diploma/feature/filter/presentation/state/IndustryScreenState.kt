@@ -8,5 +8,6 @@ data class IndustryScreenState(
     val selectedIndustryId: String? = null,
     val searchQuery: String = "",
     val isLoading: Boolean = false,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val errorMessageId: Int? = null
 )
