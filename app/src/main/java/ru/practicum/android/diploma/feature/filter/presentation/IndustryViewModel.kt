@@ -39,7 +39,7 @@ class IndustryViewModel(
 
                 updateState(newState)
                 val filter = industryInteractor.getIndustry()
-                if (filter != null ) {
+                if (filter != null) {
                     selectIndustry(filter.id)
                 }
             }
