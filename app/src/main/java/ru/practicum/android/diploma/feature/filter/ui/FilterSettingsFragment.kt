@@ -63,6 +63,15 @@ class FilterSettingsFragment : Fragment() {
         industryTextWatcher = binding.industryInput.addTextChangedListener(
             onTextChanged = onTextChanged(binding.industryTextLayout, binding.industryAction)
         )
+
+        binding.workplaceInput.text?.let {
+            onTextChanged(binding.workplaceTextLayout, binding.workplaceAction)(it, 0, 0, 0)
+        }
+
+        binding.industryInput.text?.let {
+            onTextChanged(binding.industryTextLayout, binding.industryAction)(it, 0, 0, 0)
+        }
+
         binding.hideWithoutSalaryCheckbox.setOnCheckedChangeListener { _, isChecked ->
             filterSettingsViewModel.setIsOnlyWithSalary(isChecked)
         }
@@ -111,6 +120,7 @@ class FilterSettingsFragment : Fragment() {
                 binding.industryAction.setImageResource(R.drawable.ic_arrow_forward)
                 binding.industryAction.tag = R.drawable.ic_arrow_forward
                 binding.industryInput.text?.clear()
+
             }
             if (state.areaCountry?.name != null) {
                 binding.workplaceInput.setText(state.areaCountry.name)
