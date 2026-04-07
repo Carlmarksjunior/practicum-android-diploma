@@ -7,7 +7,7 @@ import ru.practicum.android.diploma.feature.filter.domain.api.FiltersGettingRepo
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaCountry
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaRegion
 import ru.practicum.android.diploma.feature.filter.domain.model.Filters
-import ru.practicum.android.diploma.feature.vacancy.domain.model.Industry
+import ru.practicum.android.diploma.feature.filter.domain.model.FilterIndustry
 import java.lang.reflect.Type
 
 class FiltersGettingRepositoryImpl(
@@ -35,10 +35,10 @@ class FiltersGettingRepositoryImpl(
         }
     }
 
-    override fun getIndustry(): Industry? {
+    override fun getIndustry(): FilterIndustry? {
         val str = storageClient.getData<String>(SharedPrefsStorageClient.INDUSTRY_KEY)
         return if (str != null) {
-            gson.fromJson<Industry>(str, industryType)
+            gson.fromJson<FilterIndustry>(str, industryType)
         } else {
             null
         }

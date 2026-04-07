@@ -18,13 +18,12 @@ import ru.practicum.android.diploma.feature.filter.domain.api.IndustryRepository
 import ru.practicum.android.diploma.feature.filter.domain.api.regions.FilterRegionsRepository
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaCountry
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaRegion
-import ru.practicum.android.diploma.feature.filter.domain.model.Industry
+import ru.practicum.android.diploma.feature.filter.domain.model.FilterIndustry
 import ru.practicum.android.diploma.feature.search.data.impl.SearchRepositoryImpl
 import ru.practicum.android.diploma.feature.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.feature.vacancy.data.impl.VacancyDetailMapper
 import ru.practicum.android.diploma.feature.vacancy.data.impl.VacancyRepositoryImpl
 import ru.practicum.android.diploma.feature.vacancy.domain.api.VacancyRepository
-import ru.practicum.android.diploma.feature.vacancy.domain.model.Industry
 
 val repositoryModule = module {
     single<SearchRepository> {
@@ -52,7 +51,7 @@ val repositoryModule = module {
             gson = get(),
             areaCountryType = object : TypeToken<AreaCountry>() {}.type,
             areaRegionType = object : TypeToken<AreaRegion>() {}.type,
-            industryType = object : TypeToken<Industry>() {}.type
+            industryType = object : TypeToken<FilterIndustry>() {}.type
         )
     }
 
@@ -62,7 +61,7 @@ val repositoryModule = module {
             gson = get(),
             areaCountryType = object : TypeToken<AreaCountry>() {}.type,
             areaRegionType = object : TypeToken<AreaRegion>() {}.type,
-            industryType = object : TypeToken<Industry>() {}.type
+            industryType = object : TypeToken<FilterIndustry>() {}.type
         )
     }
 

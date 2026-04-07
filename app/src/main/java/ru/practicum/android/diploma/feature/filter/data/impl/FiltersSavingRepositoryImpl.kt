@@ -6,7 +6,7 @@ import ru.practicum.android.diploma.feature.filter.data.storage.SharedPrefsStora
 import ru.practicum.android.diploma.feature.filter.domain.api.FiltersSavingRepository
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaCountry
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaRegion
-import ru.practicum.android.diploma.feature.vacancy.domain.model.Industry
+import ru.practicum.android.diploma.feature.filter.domain.model.FilterIndustry
 import java.lang.reflect.Type
 
 class FiltersSavingRepositoryImpl(
@@ -30,7 +30,7 @@ class FiltersSavingRepositoryImpl(
         )
     }
 
-    override fun setIndustry(industry: Industry) {
+    override fun setIndustry(industry: FilterIndustry) {
         storageClient.storeData(
             SharedPrefsStorageClient.INDUSTRY_KEY,
             gson.toJson(industry, industryType)
