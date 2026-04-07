@@ -73,19 +73,19 @@ class FilterCountryFragment : Fragment() {
 
     private fun showRecycler() {
         binding.countriesRecycler.visibility = View.VISIBLE
-        binding.placeholderImage.visibility = View.GONE
+        binding.placeholderGroup.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
     }
 
     private fun showError() {
         binding.countriesRecycler.visibility = View.GONE
-        binding.placeholderImage.visibility = View.VISIBLE
+        binding.placeholderGroup.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
     }
 
     private fun showLoading() {
         binding.countriesRecycler.visibility = View.GONE
-        binding.placeholderImage.visibility = View.GONE
+        binding.placeholderGroup.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
     }
 
