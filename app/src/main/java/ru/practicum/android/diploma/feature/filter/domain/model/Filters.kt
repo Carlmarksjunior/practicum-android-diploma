@@ -6,4 +6,5 @@ data class Filters(
     val industry: FilterIndustry?,
     val salary: Int? = null,
     val isOnlyWithSalary: Boolean? = false,
+
 )

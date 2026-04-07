@@ -27,7 +27,6 @@ import ru.practicum.android.diploma.feature.filter.domain.impl.DeleteFilterByKey
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaCountry
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaRegion
 import ru.practicum.android.diploma.feature.filter.presentation.FilterSettingsViewModel
-import kotlin.getValue
 
 class FilterSettingsFragment : Fragment() {
 
@@ -59,7 +58,6 @@ class FilterSettingsFragment : Fragment() {
         binding.hideWithoutSalaryCheckbox.setOnCheckedChangeListener { _, isChecked ->
             filterSettingsViewModel.setIsOnlyWithSalary(isChecked)
         }
-
         binding.expectedSalaryClear.setOnClickListener {
             filterSettingsViewModel.deleteFilter(SALARY_KEY)
             binding.expectedSalaryInput.text?.clear()
@@ -76,20 +74,24 @@ class FilterSettingsFragment : Fragment() {
                 binding.expectedSalaryClear.isVisible = true
             }
         }
-        requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    isEnabled = true
-                    findNavController().popBackStack()
-                }
-            }
-        )
+        setupSystemBackNavigation()
         filterSettingsViewModel.init()
         attachObservers()
         binding.resetButton.setOnClickListener {
             filterSettingsViewModel.clearFilters()
+            filterSettingsViewModel.init()
         }
+    }
+
+    private fun setupSystemBackNavigation() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     override fun onDestroyView() {
@@ -130,6 +132,9 @@ class FilterSettingsFragment : Fragment() {
     }
 
     private fun attachObservers() {
+        filterSettingsViewModel.observeStateSettingScreen().observe(viewLifecycleOwner) {
+            binding.buttonsGroup.isVisible = it
+        }
         filterSettingsViewModel.filter.observe(viewLifecycleOwner) { state ->
 
             if (state.industry?.name != null) {

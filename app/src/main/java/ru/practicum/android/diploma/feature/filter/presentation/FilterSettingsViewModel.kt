@@ -17,19 +17,31 @@ class FilterSettingsViewModel(
     private val _filter = MutableLiveData<Filters>()
     val filter: LiveData<Filters> = _filter
 
+    private val stateSettingsScreen = MutableLiveData<Boolean>()
+    fun observeStateSettingScreen(): LiveData<Boolean> = stateSettingsScreen
+
     fun init() {
         val filter = filterSettingsInteractor.getAllFilters()
-        if (filter != null) {
-            _filter.postValue(filter)
-        }
+        val currentFilter = filter ?: Filters(null, null, null, null, false)
+        _filter.value = currentFilter
+
+        val hasActiveFilters = currentFilter.areaCountry != null ||
+            currentFilter.areaRegion != null ||
+            currentFilter.industry != null ||
+            currentFilter.salary != null ||
+            currentFilter.isOnlyWithSalary == true
+
+        stateSettingsScreen.value = hasActiveFilters
     }
 
     fun setSalary(salary: Int) {
         filterSettingsInteractor.setSalary(salary)
+        stateSettingsScreen.postValue(true)
     }
 
     fun setIsOnlyWithSalary(isOnlyWithSalary: Boolean) {
         filterSettingsInteractor.setIsOnlyWithSalary(isOnlyWithSalary)
+        init()
     }
 
     fun deleteFilter(name: String) {
