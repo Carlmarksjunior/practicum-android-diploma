@@ -110,6 +110,7 @@ class FilterSettingsFragment : Fragment() {
             } else {
                 binding.industryAction.setImageResource(R.drawable.ic_arrow_forward)
                 binding.industryAction.tag = R.drawable.ic_arrow_forward
+                binding.industryInput.text?.clear()
             }
             if (state.areaCountry?.name != null) {
                 binding.workplaceInput.setText(state.areaCountry.name)
@@ -118,6 +119,7 @@ class FilterSettingsFragment : Fragment() {
             } else {
                 binding.workplaceAction.setImageResource(R.drawable.ic_arrow_forward)
                 binding.workplaceAction.tag = R.drawable.ic_arrow_forward
+                binding.workplaceInput.text?.clear()
             }
             if (state.salary != null) {
                 binding.expectedSalaryInput.setText(state.salary.toString())
