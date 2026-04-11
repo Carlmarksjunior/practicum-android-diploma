@@ -54,7 +54,7 @@ class VacancyViewHolder(private val binding: ItemVacancyBinding) : RecyclerView.
         val city = vacancy.address?.city
         Glide.with(binding.posterImg.context)
             .load(vacancy.employer?.logo)
-            .placeholder(R.drawable.ic_placeholder)
+            .placeholder(R.drawable.ic_placeholder_48)
             .into(binding.posterImg)
         binding.nameTv.text = if (!city.isNullOrBlank()) {
             "$vacancyName, $city"

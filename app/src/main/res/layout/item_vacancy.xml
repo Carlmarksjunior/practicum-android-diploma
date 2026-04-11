@@ -10,10 +10,11 @@
         android:id="@+id/poster_img"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/ic_placeholder"
+        android:src="@drawable/ic_placeholder_48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/roundedImageView"
+        android:background="@color/white"
         app:strokeColor="@color/light_gray"
         app:strokeWidth="1dp" />
 
