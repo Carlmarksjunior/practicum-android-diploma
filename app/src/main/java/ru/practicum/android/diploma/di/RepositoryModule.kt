@@ -19,7 +19,9 @@ import ru.practicum.android.diploma.feature.filter.domain.api.regions.FilterRegi
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaCountry
 import ru.practicum.android.diploma.feature.filter.domain.model.AreaRegion
 import ru.practicum.android.diploma.feature.filter.domain.model.FilterIndustry
+import ru.practicum.android.diploma.feature.search.data.impl.PaginationRepositoryImpl
 import ru.practicum.android.diploma.feature.search.data.impl.SearchRepositoryImpl
+import ru.practicum.android.diploma.feature.search.domain.api.PaginationRepository
 import ru.practicum.android.diploma.feature.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.feature.vacancy.data.impl.VacancyDetailMapper
 import ru.practicum.android.diploma.feature.vacancy.data.impl.VacancyRepositoryImpl
@@ -79,5 +81,9 @@ val repositoryModule = module {
 
     single<FilterCountryRepository> {
         FilterCountryRepositoryImpl(get(), get())
+    }
+
+    factory<PaginationRepository> {
+        PaginationRepositoryImpl(get())
     }
 }

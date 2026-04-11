@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.feature.filter.domain.model.SearchFilters
+import ru.practicum.android.diploma.feature.search.domain.api.PaginationInteractor
 import ru.practicum.android.diploma.feature.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.feature.search.domain.model.VacancyListInfo
 import ru.practicum.android.diploma.feature.search.presentation.model.PagingErrorEvent
@@ -17,33 +18,36 @@ import ru.practicum.android.diploma.util.Resource
 import ru.practicum.android.diploma.util.SingleLiveEvent
 import ru.practicum.android.diploma.util.debounce
 
-class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
+class SearchViewModel(
+    private val searchInteractor: SearchInteractor,
+    private val paginationInteractor: PaginationInteractor
+) : ViewModel() {
     private val searchState = MutableLiveData<SearchState>()
     fun observeSearchState(): LiveData<SearchState> = searchState
     private val errorPagingEvent = SingleLiveEvent<PagingErrorEvent>()
     fun observeErrorPagingEvent(): LiveData<PagingErrorEvent> = errorPagingEvent
-
     private val allFiltersLiveData = SingleLiveEvent<Boolean>()
     fun observeAllFiltersLiveData(): LiveData<Boolean> = allFiltersLiveData
 
     private var searchText = ""
     private var listVisible = false
-    private var currentPage = 1
-    private var lastRequestedPage = -1
-    private var maxPage = -1
     private var itemPositionInvokingSearch = -1
     private val vacancies = mutableListOf<Vacancy>()
     private var filters: SearchFilters? = null
     private val searchDebounce = debounce<String>(DEBOUNCE_DELAY, viewModelScope, true) { query ->
         if (query.isNotEmpty() && query.isNotBlank()) {
-            resetPage()
-            firstPageRequest(query)
+            resetPage(query)
+        }
+    }
+    private val nextPageAfterErrorDebounce = debounce<Int>(DEBOUNCE_DELAY, viewModelScope, false) { lastRequestPage ->
+        val paginatorRequestPage = paginationInteractor.getCurrentPage()
+        if (paginatorRequestPage == lastRequestPage) {
+            paginationInteractor.setLastRequestedPage(paginatorRequestPage - 1)
         }
     }
 
     fun onSearchApplyButton(query: String) {
-        resetPage()
-        firstPageRequest(query)
+        resetPage(query)
     }
 
     fun onSearchTextChanged(text: String) {
@@ -60,28 +64,28 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     }
 
     fun onListScroll(lastVisibleItemPosition: Int) {
-        if (itemPositionInvokingSearch != -1 &&
-            itemPositionInvokingSearch <= lastVisibleItemPosition && currentPage < maxPage
+        if (itemPositionInvokingSearch != -1 && itemPositionInvokingSearch <= lastVisibleItemPosition
+            && paginationInteractor.nextPageAvailable()
         ) {
             searchState.value = SearchState.LoadingMore
-            if (currentPage != lastRequestedPage) {
-                lastRequestedPage = currentPage
-                viewModelScope.launch {
-                    doRequest(searchText).collect { vacancyList ->
-                        when (vacancyList) {
-                            is Resource.Error<VacancyListInfo> -> {
-                                errorCodeResolve(vacancyList.message!!, {
-                                    errorPagingEvent.value = PagingErrorEvent.NetworkError(R.string.no_internet)
-                                }, {
-                                    errorPagingEvent.value = PagingErrorEvent.RequestError(R.string.server_error)
-                                })
-                            }
+            viewModelScope.launch {
+                doRequest(searchText).collect { vacancyList ->
+                    when (vacancyList) {
+                        is Resource.Success -> {
+                            val data = vacancyList.data!!
+                            onNextPage(data.pages, data.vacancies)
+                            searchState.value = SearchState.Result(vacancies, data.found)
+                        }
 
-                            is Resource.Success<VacancyListInfo> -> {
-                                val data = vacancyList.data!!
-                                onNextPage(data.pages, data.vacancies, data.page + 1)
-                                searchState.value = SearchState.Result(vacancies, data.found)
-                            }
+                        is Resource.Error -> {
+                            errorCodeResolve(vacancyList.message!!, {
+                                errorPagingEvent.value =
+                                    PagingErrorEvent.NetworkError(R.string.message_no_internet)
+                            }, {
+                                errorPagingEvent.value =
+                                    PagingErrorEvent.RequestError(R.string.message_server_error)
+                            })
+                            nextPageAfterErrorDebounce.invoke(paginationInteractor.getLastRequestedPage())
                         }
                     }
                 }
@@ -100,7 +104,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
                         if (data.vacancies.isEmpty()) {
                             searchState.value = SearchState.EmptyResultError
                         } else {
-                            onNextPage(data.pages, data.vacancies, 2)
+                            onNextPage(data.pages, data.vacancies)
                             searchState.value = SearchState.Result(vacancies, data.found)
                         }
                     }
@@ -129,29 +133,28 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     }
 
     private fun doRequest(query: String): Flow<Resource<VacancyListInfo>> {
-        return searchInteractor.searchVacancies(query, filters, currentPage)
+        return searchInteractor.searchVacancies(query, filters, paginationInteractor.getCurrentPage())
     }
 
-    private fun onNextPage(newMaxPage: Int, newVacancies: List<Vacancy>, newCurrentPage: Int = currentPage + 1) {
-        currentPage = newCurrentPage
-        maxPage = newMaxPage
+    private fun onNextPage(newMaxPage: Int, newVacancies: List<Vacancy>) {
+        paginationInteractor.setMaxPages(newMaxPage)
+        paginationInteractor.nextPage()
         vacancies.addAll(newVacancies)
         itemPositionInvokingSearch = vacancies.size - 1
         listVisible = true
     }
 
-    private fun resetPage() {
-        currentPage = 1
+    private fun resetPage(query: String) {
+        paginationInteractor.reset()
         itemPositionInvokingSearch = -1
-        maxPage = -1
-        lastRequestedPage = -1
+        firstPageRequest(query)
     }
 
     fun getAllFilters() {
         viewModelScope.launch {
             filters = searchInteractor.getAllFilters()
             val hasFilters = filters?.let {
-                it.salary != null || it.areaId != null || it.industryId != null || it.isOnlyWithSalary == true
+                it.salary != null || it.areaId != null || it.industryId != null || it.isOnlyWithSalary
             } ?: false
 
             allFiltersLiveData.postValue(hasFilters)

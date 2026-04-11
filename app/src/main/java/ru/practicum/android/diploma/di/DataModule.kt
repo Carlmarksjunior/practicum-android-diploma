@@ -18,8 +18,10 @@ import ru.practicum.android.diploma.feature.filter.data.network.IndustryNetworkC
 import ru.practicum.android.diploma.feature.filter.data.network.RetrofitFilterRegionNetworkClient
 import ru.practicum.android.diploma.feature.filter.data.storage.SharedPrefsStorageClient
 import ru.practicum.android.diploma.feature.search.data.NetworkClient
+import ru.practicum.android.diploma.feature.search.data.Paginator
 import ru.practicum.android.diploma.feature.search.data.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.feature.search.data.network.VacancyApiService
+import ru.practicum.android.diploma.feature.search.data.pagination.Pagination
 import ru.practicum.android.diploma.feature.vacancy.data.ExternalNavigator
 import ru.practicum.android.diploma.feature.vacancy.data.navigator.ExternalNavigatorImpl
 import ru.practicum.android.diploma.util.AuthInterceptor
@@ -28,6 +30,8 @@ import ru.practicum.android.diploma.util.ResourceProvider
 import ru.practicum.android.diploma.util.ResourceProviderImpl
 
 const val VACANCY_BASE_URL = "https://android-diploma.education-services.ru/"
+const val PAGE_START_INDEX = 1
+
 val dataModule = module {
 
     single<VacancyApiService> {
@@ -88,5 +92,9 @@ val dataModule = module {
 
     single<ResourceProvider> {
         ResourceProviderImpl(androidContext())
+    }
+
+    factory<Paginator> {
+        Pagination(PAGE_START_INDEX)
     }
 }

@@ -107,4 +107,8 @@
 
     <!-- ViewHolder вакансии -->
     <string name="employer_null">Работодатель не указан</string>
+
+    <!-- ViewHolder поиска -->
+    <string name="message_no_internet">Проверьте подключение к интернету</string>
+    <string name="message_server_error">Произошла ошибка</string>
 </resources>

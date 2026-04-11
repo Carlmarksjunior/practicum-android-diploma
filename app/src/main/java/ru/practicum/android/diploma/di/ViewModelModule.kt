@@ -13,7 +13,7 @@ import ru.practicum.android.diploma.feature.vacancy.presentation.VacancyViewMode
 
 val viewModelModule = module {
     viewModel {
-        SearchViewModel(get())
+        SearchViewModel(get(), get())
     }
     viewModel {
         FavoriteFragmentViewModel(get(), get())
